@@ -1,0 +1,862 @@
+--- 
+title: "A CTLSCx Exercises in R"
+author: "Eduardo Almeida"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: Eduardodudu/CTLSCx
+url: 'https://github.com/Eduardodudu/CTLSCx'
+description: "Trying to learn NERD Network design ?"
+---
+
+# CTLSC0x - Supply Chain Analytics
+
+```{r include=FALSE}
+library(ompr)
+library(ROI)
+library(ROI.plugin.glpk)
+library(ompr.roi)
+library(ggplot2)
+library(plotly)
+library(tibble)
+library(DT)
+library(tidyverse)
+```
+
+
+## Week2 - Unconstrained & Constrained Optimization
+
+### Recitation
+
+#### Unconstrained
+
+Straigthforward exercises in modeling optimization without index vectors.
+
+$$
+\textbf{Equation 1:} \ \ Minimze \ \ y = x^2+2*x-3
+$$
+
+Since is an unconstrained quadratic optimization with a single variable, base R package optimizer can solve it
+
+```{r}
+f <- function(x){x^2+2*x-3}
+result <- optimize(f,interval = c(-10,10), maximum = F)
+print(result)
+
+```
+
+Let's check the result in the plot
+
+```{r}
+#Data created for plot, using mutate on the function
+x <- seq(-10,10,1)
+data <- data <- data.frame(x) %>%
+        mutate(y = f(x))
+
+#Ploting with a marker on the optimal solution
+plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+  add_markers(y = result$objective, x = result$minimum)
+
+```
+
+
+
+$$
+\textbf{Equation 2:} \ \ Maximize \ \ z =-x^2+2*x-y^2
+$$
+
+In this equation there is 2 variables, for this case it can be used the base R package optim.
+
+
+```{r}
+f <- function(x,y){-x[1]^2+2*x[1]-x[2]^2}
+result <- optim(c(1, 1), f)
+print(result)
+
+```
+
+
+#### Constrained
+
+##### Banner Chemicals
+
+```{r}
+
+data <- tibble(Type = c("Profit","Plant","Additive A", "Additive B"), High = c(80,1,3,1),
+                   Supreme = c(200,1,2,3), Capacity = c(NA,110, 300, 280))
+
+datatable(data)
+
+```
+
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i\in M}^{ }p_i\cdot x_i \\
+\textbf{subject to}\\
+    & \sum_{i\in M} x_i \le\ C \\
+    & \sum_{i\in M} a_{i,j} \cdot x_i \le\ A_j, \ \ \forall j \in N \\
+    & x_i \ge 0 \\
+    \\
+    
+\textbf{Where} \\
+
+& i = \text{Products in M} \\
+& j = \text{Additives in N} \\
+& p_i = \text{Profit margin for product i} \\
+& C = \text{Plant capacity} \\
+& A_j = \text{Additive j available} \\
+& a_{i,j} = \text{Quantity of additive j required per barrel of product i} \\
+& x_i = \text{Quantity of product i to produce} \\
+
+\end{align*} 
+$$
+
+```{r, warning=FALSE}
+rm(x)
+
+n = 2 #Number of products High and Supreme
+C = filter(data, Type == "Plant") %>% select(Capacity) %>% .$Capacity
+a = as.matrix(filter(data, Type %in% c("Additive A","Additive B")) %>% select(High, Supreme))
+A = filter(data, Type %in% c("Additive A","Additive B")) %>% select(Capacity) %>% .$Capacity
+p = filter(data, Type == "Profit") %>% select(High, Supreme) %>% gather() %>% .$value
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # minimize travel distance
+  set_objective(sum_expr(p[i]*x[i], i = 1:n), "max") %>%
+
+  # you cannot exceed the Plant Capacity
+  add_constraint(sum_expr(x[i], i = 1:n) <= C) %>%
+  
+  #You cannot exceed aditivie capacity
+  add_constraint(sum_expr(x[i] * a[j,i], i = 1:n) <= A[j], j = 1:n)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+```
+
+
+### Practice Problems
+
+#### Handmade Baskets
+
+$$
+P = (x/73)^2-(x/95)+0.92
+$$
+
+```{r}
+P <- function(x){(x/73)^2-(x/95)+0.92}
+
+#Data created for plot, using mutate on the function
+x <- seq(-100,200,1)
+data <- data <- data.frame(x) %>%
+        mutate(y = P(x))
+
+min = data[data$y == min(data$y),] #cheating :P
+
+#Ploting with a marker on the optimal solution
+plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+  add_markers(y = min$y, x = min$x)
+
+```
+
+
+
+
+```{r}
+#Part 1: Price Functio
+
+#Question1: How much will it charge with 5 basket's order ?
+P(5)
+
+#Question2: What is the first derivative of the price function?
+library(Ryacas)
+x <- Sym("x")
+s <- expression((x/73)^2-(x/95)+0.92)
+deriv(s,x) #Didn't work TO DO
+
+#Question3: Second Derivative
+x <- Sym("x")
+s <- expression(-1/95 + (2*x)/5329)
+deriv(s,x) #worked
+
+#Question4: Lowest Unit Price
+result <- optimize(P,interval = c(-100,100), maximum = F)
+print(result)
+
+```
+
+#### Maximizing Storage
+
+
+$$
+\begin{align*}
+\textbf{Minimize} & \ Z = x*y \\
+\textbf{st.} \\
+& 2*x+2*y = 26.7
+\end{align*}
+$$
+
+
+Simplifying $2*x+2*y = 26.7$ as $y = (26.7 - 2*x)/2$ is possible to change the optimization problem to a single variable:
+
+$$
+\begin{align*}
+\textbf{Minimize} & \ Z\ =x\cdot\ \left(\frac{\left(26.7-2\cdot x\right)}{2}\right)\\
+\end{align*}
+$$
+
+
+Solving:
+
+```{r}
+f <- function(x){x*((26.7 - 2*x)/2)}
+result <- optimize(f,interval = c(-100,100), maximum = T)
+print(result)
+
+```
+
+
+Let's check the result in the plot
+
+```{r}
+#Data created for plot, using mutate on the function
+x <- seq(-100,100,0.1)
+data <- data <- data.frame(x) %>%
+        mutate(y = f(x))
+
+#Ploting with a marker on the optimal solution
+plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+  add_markers(y = result$objective, x = result$maximum)
+
+```
+
+
+#### Marketing MagicPuppy
+
+$$
+N = 1700 \left ( \frac{x}{90} - \left ( \frac{x}{90} \right ) ^2 \right )
+$$
+
+
+
+```{r}
+f <- function(x){1700*(x/90-(x/90)^2)}
+
+#Question1: First derivative
+x <- Sym("x")
+s <- expression(1700*(x/90-(x/90)^2))
+deriv(s,x) #Didn't work TO DO
+
+
+#Question2: How many units should be given away in the campaign in order to maximize its positive impact?
+result <- optimize(f,interval = c(-100,200), maximum = T)
+print(result)
+
+
+x <- seq(-50,100,1)
+data <- data <- data.frame(x) %>%
+        mutate(y = f(x))
+
+#Ploting with a marker on the optimal solution
+plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+  add_markers(y = result$objective, x = result$maximum)
+
+```
+
+#### CureBase Cancer Institute
+
+
+$$
+W = \left ( m^{x^{2}} \right )\left ( n^{-x} \right )\left ( z^7 \right )
+$$
+
+
+```{r}
+#Question what is the value of  x  at the maximum value of  W , given that  m=0.06 ,  n=0.14 ,  z=0.15 ?)
+f <- function(x){0.06^(x^2)*(0.14^(-x))*0.15^7}
+result <- optimize(f,interval = c(-1,1), maximum = T)
+print(result)
+```
+
+
+
+```{r}
+x <- seq(-1,1,0.1)
+data <- data <- data.frame(x) %>%
+        mutate(y = f(x))
+
+#Ploting with a marker on the optimal solution
+plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
+  add_markers(y = result$objective, x = result$maximum)
+```
+
+ 
+#### Santa’s Molding Company
+
+
+```{r}
+
+data <- tibble(Type = c("Profit","Time","Cubic Area", "index capacity"), Toy = c(25,13,33,75),
+                   doll = c(25,15,25,70), Capacity = c(NA,1440, 3000, NA))
+
+datatable(data)
+
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i=1}^{N} p_i\cdot x_i \\
+\textbf{subject to}\\
+    & x_i \le\ c_i  \ \ \forall i \in N \\
+    & \sum_{i=1}^{N} t_{i} \cdot x_i \le\ 1440 \\
+    & \sum_{i=1}^{N} a_{i} \cdot x_i \le\ 3000 \\
+    & x_i \ge 0 \\
+    \\
+    
+\textbf{Where} \\
+
+& i = \text{Products in N} \\
+& p_i = \text{Profit margin for product i} \\
+& c_i = \text{Product daily capacity} \\
+& t_i = \text{Time to mold product i} \\
+& a_i = \text{Cubic inches of product i} \\
+& x_i = \text{Quantity of product i to mold} \\
+
+\end{align*} 
+$$
+
+If we look closer on the dataframe, we can set constraints 2 and 3 as one with a matrix including capacity constraints, but for math notation I've set them differently since they are 2 different types of entities.
+
+
+```{r}
+rm(x)
+
+n = 2 #Number of products Toy and doll
+c = filter(data, Type == "index capacity") %>% select(Toy,doll) %>% gather() %>% .$value #index_capacity
+a = as.matrix(filter(data, Type %in% c("Time","Cubic Area")) %>% select(Toy,doll)) #constraints left hand
+C = filter(data, Type %in% c("Time","Cubic Area")) %>% select(Capacity) %>% .$Capacity #constraints right hand
+p = filter(data, Type == "Profit") %>% select(Toy,doll) %>% gather() %>% .$value #profit
+
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # minimize travel distance
+  set_objective(sum_expr(p[i]*x[i], i = 1:n), "max") %>%
+
+  # you cannot exceed the Plant Capacity
+  add_constraint(x[i] <= c[i], i= 1:n) %>%
+
+  #You cannot exceed aditivie capacity
+  add_constraint(sum_expr(x[i] * a[j,i], i = 1:n) <= C[j], j = 1:n)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+```
+
+
+Let's solve the questions
+
+```{r}
+P <- function(x,y){25*x+25*y}
+#Question 1: Graphical selection
+#Question 2: What is the value of x = 70 and y= 30
+P(70,30)
+
+#Question 3: What is the value of x = 50 and y= 53
+P(50,53)
+
+#Question 3: What is the value of x = 50 and y= 53
+P(20,75)
+
+```
+
+#### Crazy Cereal
+
+```{r}
+
+data <- tibble(Type = c("Sugary","Regular","Capacity"), Sugar = c(0.66,0.21,2000),
+                   Corn_Flake = c(0.34,0.79,4000), Profit = c(0.94,0.82,NA))
+datatable(data)
+
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i=1}^{N} p_i \cdot x_{i} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le C_j, \ j \in M \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    \\
+    
+\textbf{Where} \\
+
+& i = \text{Products in N} \\
+& j = \text{Components of N = M} \\
+& p_i = \text{Profit margin for product i} \\
+& a_{i,j} = \text{components for product i} \\
+& C_j = \text{Component capacity} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+
+
+```{r}
+rm(x)
+
+n = 2 #Number of products Sugary and Regular
+m = 2 #Number of components Sugar and Corn_Flake
+
+#Let's do some roots R instead of dplyr :)
+C = as.matrix(data[data$Type == "Capacity",c("Sugar", "Corn_Flake")])
+a = as.matrix(data[data$Type %in% c("Sugary","Regular"),c("Sugar", "Corn_Flake")])
+p = as.matrix(data$Profit[1:2])
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(p[i] * x[i], i = 1:n), "max") %>%
+
+  #You cannot exceed component capacity
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:m) <= C[j], j = 1:n)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+
+```
+
+#### Jim's Meat Packing Company
+
+```{r}
+
+data <- tibble(Cut = c("Chuck","Sirloin","Restriction"), Lean_Meat = c(0.09,0.6,0.3),
+                   Fat_Meat = c(0.02,0.06,0.05), Cost = c(9.3,8.4,NA))
+datatable(data)
+
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ y = \sum_{i=1}^{N} c_i \cdot x_{i} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=1 \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=2 \\
+    & \sum_{i=1}^{N} x_{i} \ge 50 \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+    \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of cut in N} \\
+& j = \text{Type of meat} \\
+& c_i = \text{Cost for product i} \\
+& a_{i,j} = \text{components for product i} \\
+& R_j = \text{Restriction capacity} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+
+
+```{r}
+rm(x)
+
+n = 2 #Number of products Sugary and Regular
+m = 2 #Number of components Sugar and Corn_Flake
+
+#Another way of subsetting data in R
+R = as.matrix(data[3,2:3])
+a = as.matrix(data[1:2,2:3])
+c = as.matrix(data[1:2,4])
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(c[i] * x[i], i = 1:n), "min") %>%
+  
+  #yay
+  add_constraint(sum_expr(x[i], i = 1:n) >= 50) %>%
+
+  #You cannot exceed component capacity
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) >= sum_expr(x[i], i = 1:n)*R[j], j = 1) %>%
+
+  
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) <= sum_expr(x[i], i = 1:n)*R[j], j = 2)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+
+```
+
+
+I couldn't find a proper function on shadow price calculation on ompr package, so lets try to calculate it ourselves!
+
+```{r}
+
+ModelIter <- function(z){
+  
+  model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(c[i] * x[i], i = 1:n), "min") %>%
+  
+  #yay
+  add_constraint(sum_expr(x[i], i = 1:n) >= z) %>%
+
+  #You cannot exceed component capacity
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) >= sum_expr(x[i], i = 1:n)*R[j], j = 1) %>%
+
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) <= sum_expr(x[i], i = 1:n)*R[j], j = 2) %>%
+    
+  solve_model(with_ROI(solver = "glpk", verbose = F))
+  
+  return(model$objective_value)
+  
+}
+
+Iter_Results <- tibble(constraint = seq(48,55,1)) %>%
+                mutate(Obj_value = as.numeric(map(constraint, ModelIter)),
+                       Marginal_value = round((Obj_value-lag(Obj_value,1)/(constraint-lag(constraint,1))),2))
+datatable(Iter_Results)
+
+mean(Iter_Results$Marginal_value[2:length(Iter_Results)])
+
+```
+
+Marginal Value set as 8.85 got us an error, the answer was 8.63, would be good to understand what was made wrong in here.
+
+
+#### John's Shipping Company
+
+```{r}
+
+data <- tibble(Fuel_Type = c("O_Type","D_Type","Restriction"), Hydrogen_Conc = c(45,90,60),
+                   Oxygen_Conc = c(15,6,9), Cost = c(1.05,1.34,NA))
+datatable(data)
+
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ y = \sum_{i=1}^{N} c_i \cdot x_{i} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=1 \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=2 \\
+    & \sum_{i=1}^{N} x_{i} \ge G \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+    \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of cut in N} \\
+& j = \text{Type of meat} \\
+& c_i = \text{Cost for product i} \\
+& a_{i,j} = \text{components for product i} \\
+& R_j = \text{Restriction capacity} \\
+& x_{i} = \text{Quantity of product} \\
+& G = \text{Minimum to be produced} \\
+
+\end{align*} 
+$$
+
+
+
+```{r}
+rm(x)
+
+n = 2 #Number of products Sugary and Regular
+m = 2 #Number of components Sugar and Corn_Flake
+z = 10000 #minimum to be produced
+
+#Another way of subsetting data in R
+R = as.matrix(data[3,2:3])
+a = as.matrix(data[1:2,2:3])
+c = as.matrix(data[1:2,4])
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(c[i] * x[i], i = 1:n), "min") %>%
+  
+  #Produce at least the minimum required
+  add_constraint(sum_expr(x[i], i = 1:n) >= z) %>%
+
+  #Minimum component required
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) >= sum_expr(x[i], i = 1:n)*R[j], j = 1) %>%
+
+   #You cannot exceed component capacity
+  add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) <= sum_expr(x[i], i = 1:n)*R[j], j = 2)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+
+```
+
+
+#### A New Office Plant
+
+```{r}
+
+data <- tibble(Type = c("Product_1","Product_2","Product_3", "Min", "Max"), Nitrogen  = c(360,380,310,1800,2200),
+                   Potassium = c(30,20,20,100,100), cost = c(1.59,2.19,2.99,NA,NA))
+datatable(data)
+
+```
+
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ y = \sum_{i=1}^{N} c_i \cdot x_{i} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge Min_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le Max_j, \ \ j \in M \\
+    & x_{i} \ge 0 \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of product in N} \\
+& j = \text{Type of component in M} \\
+& c_i = \text{Cost for product i} \\
+& a_{i,j} = \text{components for product i} \\
+& Min_j = \text{Restriction of component} \\
+& Max_j = \text{Restriction of component} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+min = as.matrix(data[4,2:3])
+max = as.matrix(data[5,2:3])
+a = as.matrix(data[1:3,2:3])
+c = as.matrix(data[1:3,4])
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "continuous", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(c[i] * x[i], i = 1:n), "min") %>%
+  
+  #Produce at least the minimum required
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) >= min[j], j = 1:m) %>%
+  
+  #Dont exceed maximum required
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j], j = 1:m)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+#Duals
+get_column_duals(result)
+
+
+#Question: How many mg of Nitrogen would your solution provide to the plant every day? (Please round your answer to integer number)
+result$solution[1]*a[1,1]+result$solution[2]*a[2,1]
+
+```
+
+
+#### Rochak's Ink Company
+
+```{r}
+
+data <- tibble(Type = c("P_Cyan","P_Magenta","P_Yellow","Max"),
+               Stage1  = c(0.44,0.51,0.5,17*60^2), Stage2 = c(0.55,0.6,0.59,23*60^2),
+               Demand = c(84000,72000,93000,NA), Profit = c(0.6,0.72,0.62,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i=1}^{N} p_i \cdot x_{i} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le Max_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i} \le D_i \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of product in N} \\
+& j = \text{Production stage in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Time requirement for product i in stage j} \\
+& Max_j = \text{Restriction of production time} \\
+& D_i = \text{Demand for product} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+In this exercise, you're willing to maximize profit given the demand. You don't have to fulfill all of the demand, that's why the $ \sum_{i=1}^{N} x_{i} \le D_i$ constraint.
+
+
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+D = as.matrix(data[1:3,4])
+max = as.matrix(data[4,2:3])
+a = as.matrix(data[1:3,2:3])
+p = as.matrix(data[1:3,5])
+
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(p[i] * x[i], i = 1:n), "max") %>%
+  
+  #Don't produce something you don't have demand for
+  add_constraint(x[i] <= D[i], i = 1:n) %>%
+  
+  #Dont exceed maximum required
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j], j = 1:m)
+
+
+model$constraints
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+#### Pasteur Cheese Factory
+
+
+

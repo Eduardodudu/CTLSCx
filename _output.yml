@@ -1,11 +1,12 @@
 bookdown::gitbook:
+  toc_depth: 4
   css: style.css
   split_by: chapter
   config:
     toc:
-      collapse: subsection
+      collapse: subsubsection
       before: |
-        <li><a href="./">A Minimal Bookdown Book</a></li>
+        <li><a href="./">A CTLSCx exercises Bookdown Book</a></li>
       after: |
         <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 bookdown::pdf_book:

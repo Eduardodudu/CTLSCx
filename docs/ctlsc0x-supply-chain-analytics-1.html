@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 CTLSC0x - Supply Chain Analytics {1} | A CTLSCx Exercises in R</title>
+  <meta name="description" content="Trying to learn NERD Network design ?" />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 CTLSC0x - Supply Chain Analytics {1} | A CTLSCx Exercises in R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/Eduardodudu/CTLSCx" />
+  
+  <meta property="og:description" content="Trying to learn NERD Network design ?" />
+  <meta name="github-repo" content="Eduardodudu/CTLSCx" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 CTLSC0x - Supply Chain Analytics {1} | A CTLSCx Exercises in R" />
+  
+  <meta name="twitter:description" content="Trying to learn NERD Network design ?" />
+  
+
+<meta name="author" content="Eduardo Almeida" />
+
+
+<meta name="date" content="2019-07-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.46.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.46.1/plotly-latest.min.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.7/datatables.js"></script>
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.16/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.16/js/jquery.dataTables.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A CTLSCx exercises Bookdown Book</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html"><i class="fa fa-check"></i><b>1</b> CTLSC0x - Supply Chain Analytics {1}</a><ul>
+<li class="chapter" data-level="1.1" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#week2---unconstrained-constrained-optimization"><i class="fa fa-check"></i><b>1.1</b> Week2 - Unconstrained &amp; Constrained Optimization</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#recitation"><i class="fa fa-check"></i><b>1.1.1</b> Recitation</a><ul>
+<li class="chapter" data-level="1.1.1.1" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#unconstrained"><i class="fa fa-check"></i><b>1.1.1.1</b> Unconstrained</a></li>
+<li class="chapter" data-level="1.1.1.2" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#constrained"><i class="fa fa-check"></i><b>1.1.1.2</b> Constrained</a></li>
+</ul></li>
+<li class="chapter" data-level="1.1.2" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#practice-problems"><i class="fa fa-check"></i><b>1.1.2</b> Practice Problems</a><ul>
+<li class="chapter" data-level="1.1.2.1" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#handmade-baskets"><i class="fa fa-check"></i><b>1.1.2.1</b> Handmade Baskets</a></li>
+<li class="chapter" data-level="1.1.2.2" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#maximizing-storage"><i class="fa fa-check"></i><b>1.1.2.2</b> Maximizing Storage</a></li>
+<li class="chapter" data-level="1.1.2.3" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#marketing-magicpuppy"><i class="fa fa-check"></i><b>1.1.2.3</b> Marketing MagicPuppy</a></li>
+<li class="chapter" data-level="1.1.2.4" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#curebase-cancer-institute"><i class="fa fa-check"></i><b>1.1.2.4</b> CureBase Cancer Institute</a></li>
+<li class="chapter" data-level="1.1.2.5" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#santas-molding-company"><i class="fa fa-check"></i><b>1.1.2.5</b> Santa’s Molding Company</a></li>
+<li class="chapter" data-level="1.1.2.6" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#crazy-cereal"><i class="fa fa-check"></i><b>1.1.2.6</b> Crazy Cereal</a></li>
+<li class="chapter" data-level="1.1.2.7" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#jims-meat-packing-company"><i class="fa fa-check"></i><b>1.1.2.7</b> Jim’s Meat Packing Company</a></li>
+<li class="chapter" data-level="1.1.2.8" data-path="ctlsc0x-supply-chain-analytics-1.html"><a href="ctlsc0x-supply-chain-analytics-1.html#johns-shipping-company"><i class="fa fa-check"></i><b>1.1.2.8</b> John’s Shipping Company</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A CTLSCx Exercises in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ctlsc0x---supply-chain-analytics-1" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> CTLSC0x - Supply Chain Analytics {1}</h1>
+<div id="week2---unconstrained-constrained-optimization" class="section level2">
+<h2><span class="header-section-number">1.1</span> Week2 - Unconstrained &amp; Constrained Optimization</h2>
+<div id="recitation" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Recitation</h3>
+<div id="unconstrained" class="section level4">
+<h4><span class="header-section-number">1.1.1.1</span> Unconstrained</h4>
+<p>Straigthforward exercises in modeling optimization without index vectors.</p>
+<p><span class="math display">\[
+\textbf{Equation 1:} \ \ Minimze \ \ y = x^2+2*x-3
+\]</span></p>
+<p>Since is an unconstrained quadratic optimization with a single variable, base R package optimizer can solve it</p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x){x<span class="op">^</span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span><span class="op">*</span>x<span class="dv">-3</span>}
+result &lt;-<span class="st"> </span><span class="kw">optimize</span>(f,<span class="dt">interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>), <span class="dt">maximum =</span> F)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $minimum
+## [1] -1
+## 
+## $objective
+## [1] -4</code></pre>
+<p>Let’s check the result in the plot</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Data created for plot, using mutate on the function</span>
+x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">1</span>)
+data &lt;-<span class="st"> </span>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">y =</span> <span class="kw">f</span>(x))
+
+<span class="co">#Ploting with a marker on the optimal solution</span>
+<span class="kw">plot_ly</span>(data, <span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_markers</span>(<span class="dt">y =</span> result<span class="op">$</span>objective, <span class="dt">x =</span> result<span class="op">$</span>minimum)</code></pre>
+<div id="htmlwidget-9b501a3adf84be522068" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9b501a3adf84be522068">{"x":{"visdat":{"705254fd487":["function () ","plotlyVisDat"]},"cur_data":"705254fd487","attrs":{"705254fd487":{"x":{},"y":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"705254fd487.1":{"x":-1,"y":-4,"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"y"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10],"y":[77,60,45,32,21,12,5,0,-3,-4,-3,0,5,12,21,32,45,60,77,96,117],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[-1],"y":[-4],"mode":"markers","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p><span class="math display">\[
+\textbf{Equation 2:} \ \ Maximize \ \ z =-x^2+2*x-y^2
+\]</span></p>
+<p>In this equation there is 2 variables, for this case it can be used the base R package optim.</p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x,y){<span class="op">-</span>x[<span class="dv">1</span>]<span class="op">^</span><span class="dv">2</span><span class="op">+</span><span class="dv">2</span><span class="op">*</span>x[<span class="dv">1</span>]<span class="op">-</span>x[<span class="dv">2</span>]<span class="op">^</span><span class="dv">2</span>}
+result &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), f)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $par
+## [1] 4.996335e+54 2.684172e+55
+## 
+## $value
+## [1] -7.454411e+110
+## 
+## $counts
+## function gradient 
+##      501       NA 
+## 
+## $convergence
+## [1] 1
+## 
+## $message
+## NULL</code></pre>
+</div>
+<div id="constrained" class="section level4">
+<h4><span class="header-section-number">1.1.1.2</span> Constrained</h4>
+<div id="banner-chemicals" class="section level5">
+<h5><span class="header-section-number">1.1.1.2.1</span> Banner Chemicals</h5>
+<pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Type =</span> <span class="kw">c</span>(<span class="st">&quot;Profit&quot;</span>,<span class="st">&quot;Plant&quot;</span>,<span class="st">&quot;Additive A&quot;</span>, <span class="st">&quot;Additive B&quot;</span>), <span class="dt">High =</span> <span class="kw">c</span>(<span class="dv">80</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>),
+                   <span class="dt">Supreme =</span> <span class="kw">c</span>(<span class="dv">200</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">Capacity =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">110</span>, <span class="dv">300</span>, <span class="dv">280</span>))
+
+<span class="kw">datatable</span>(data)</code></pre>
+<div id="htmlwidget-1ad72d8c905f715faaab" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1ad72d8c905f715faaab">{"x":{"filter":"none","data":[["1","2","3","4"],["Profit","Plant","Additive A","Additive B"],[80,1,3,1],[200,1,2,3],[null,110,300,280]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Type<\/th>\n      <th>High<\/th>\n      <th>Supreme<\/th>\n      <th>Capacity<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>$$
+<span class="math display">\[\begin{align*}
+
+\textbf{Maximize} &amp; \ y = \sum_{i\in M}^{ }p_i\cdot x_i \\
+\textbf{subject to}\\
+    &amp; \sum_{i\in M} x_i \le\ C \\
+    &amp; \sum_{i\in M} a_{i,j} \cdot x_i \le\ A_j, \ \ \forall j \in N \\
+    &amp; x_i \ge 0 \\
+    \\
+    
+\textbf{Where} \\
+
+&amp; i = \text{Products in M} \\
+&amp; j = \text{Additives in N} \\
+&amp; p_i = \text{Profit margin for product i} \\
+&amp; C = \text{Plant capacity} \\
+&amp; A_j = \text{Additive j available} \\
+&amp; a_{i,j} = \text{Quantity of additive j required per barrel of product i} \\
+&amp; x_i = \text{Quantity of product i to produce} \\
+
+\end{align*}\]</span>
+$$</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)
+
+n =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of products High and Supreme</span>
+C =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">==</span><span class="st"> &quot;Plant&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Capacity) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>Capacity
+a =<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">filter</span>(data, Type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Additive A&quot;</span>,<span class="st">&quot;Additive B&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(High, Supreme))
+A =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Additive A&quot;</span>,<span class="st">&quot;Additive B&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Capacity) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>Capacity
+p =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">==</span><span class="st"> &quot;Profit&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(High, Supreme) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>() <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>value
+
+
+model &lt;-<span class="st"> </span><span class="kw">MIPModel</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Variable of profit</span>
+<span class="st">  </span><span class="kw">add_variable</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>, <span class="dt">lb =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># minimize travel distance</span>
+<span class="st">  </span><span class="kw">set_objective</span>(<span class="kw">sum_expr</span>(p[i]<span class="op">*</span>x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n), <span class="st">&quot;max&quot;</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># you cannot exceed the Plant Capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&lt;=</span><span class="st"> </span>C) <span class="op">%&gt;%</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co">#You cannot exceed aditivie capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[j,i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&lt;=</span><span class="st"> </span>A[j], <span class="dt">j =</span> <span class="dv">1</span><span class="op">:</span>n)
+
+
+model<span class="op">$</span>constraints</code></pre>
+<pre><code>## [[1]]
+## $lhs
+## expression(x[1L] + x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(110)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[2]]
+## $lhs
+## expression(c(High = 3) * x[1L] + c(Supreme = 2) * x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(300)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[3]]
+## $lhs
+## expression(x[1L] * c(High = 1) + c(Supreme = 3) * x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(280)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Solve</span>
+result &lt;-<span class="st"> </span><span class="kw">solve_model</span>(model, <span class="kw">with_ROI</span>(<span class="dt">solver =</span> <span class="st">&quot;glpk&quot;</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>))</code></pre>
+<pre><code>## &lt;SOLVER MSG&gt;  ----
+## GLPK Simplex Optimizer, v4.57
+## 3 rows, 2 columns, 6 non-zeros
+## *     0: obj =  -0.000000000e+00 inf =   0.000e+00 (2)
+## *     2: obj =   1.900000000e+04 inf =   0.000e+00 (0)
+## OPTIMAL LP SOLUTION FOUND
+## GLPK Integer Optimizer, v4.57
+## 3 rows, 2 columns, 6 non-zeros
+## 2 integer variables, none of which are binary
+## Integer optimization begins...
+## +     2: mip =     not found yet &lt;=              +inf        (1; 0)
+## +     2: &gt;&gt;&gt;&gt;&gt;   1.900000000e+04 &lt;=   1.900000000e+04   0.0% (1; 0)
+## +     2: mip =   1.900000000e+04 &lt;=     tree is empty   0.0% (0; 1)
+## INTEGER OPTIMAL SOLUTION FOUND
+## &lt;!SOLVER MSG&gt; ----</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Optimal Value</span>
+result<span class="op">$</span>objective_value</code></pre>
+<pre><code>## [1] 19000</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#result solution</span>
+result<span class="op">$</span>solution</code></pre>
+<pre><code>## x[1] x[2] 
+##   25   85</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Duals</span>
+<span class="kw">get_column_duals</span>(result)</code></pre>
+<pre><code>## [1] NA</code></pre>
+</div>
+</div>
+</div>
+<div id="practice-problems" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Practice Problems</h3>
+<div id="handmade-baskets" class="section level4">
+<h4><span class="header-section-number">1.1.2.1</span> Handmade Baskets</h4>
+<p><span class="math display">\[
+P = (x/73)^2-(x/95)+0.92
+\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">P &lt;-<span class="st"> </span><span class="cf">function</span>(x){(x<span class="op">/</span><span class="dv">73</span>)<span class="op">^</span><span class="dv">2</span><span class="op">-</span>(x<span class="op">/</span><span class="dv">95</span>)<span class="op">+</span><span class="fl">0.92</span>}
+
+<span class="co">#Data created for plot, using mutate on the function</span>
+x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">1</span>)
+data &lt;-<span class="st"> </span>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">y =</span> <span class="kw">P</span>(x))
+
+min =<span class="st"> </span>data[data<span class="op">$</span>y <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(data<span class="op">$</span>y),] <span class="co">#cheating :P</span>
+
+<span class="co">#Ploting with a marker on the optimal solution</span>
+<span class="kw">plot_ly</span>(data, <span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_markers</span>(<span class="dt">y =</span> min<span class="op">$</span>y, <span class="dt">x =</span> min<span class="op">$</span>x)</code></pre>
+<div id="htmlwidget-d306ab18d8aa56a8e086" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d306ab18d8aa56a8e086">{"x":{"visdat":{"70542f84f6a":["function () ","plotlyVisDat"]},"cur_data":"70542f84f6a","attrs":{"70542f84f6a":{"x":{},"y":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"70542f84f6a.1":{"x":28,"y":0.772382692516617,"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"y"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-100,-99,-98,-97,-96,-95,-94,-93,-92,-91,-90,-89,-88,-87,-86,-85,-84,-83,-82,-81,-80,-79,-78,-77,-76,-75,-74,-73,-72,-71,-70,-69,-68,-67,-66,-65,-64,-63,-62,-61,-60,-59,-58,-57,-56,-55,-54,-53,-52,-51,-50,-49,-48,-47,-46,-45,-44,-43,-42,-41,-40,-39,-38,-37,-36,-35,-34,-33,-32,-31,-30,-29,-28,-27,-26,-25,-24,-23,-22,-21,-20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200],"y":[3.84915625524686,3.80128709839903,3.75379324648645,3.70667469950914,3.65993145746709,3.61356352036029,3.56757088818876,3.52195356095248,3.47671153865147,3.43184482128572,3.38735340885522,3.34323730135999,3.29949649880001,3.2561310011753,3.21314080848584,3.17052592073165,3.12828633791271,3.08642206002904,3.04493308708062,3.00381941906747,2.96308105598957,2.92271799784693,2.88273024463956,2.84311779636744,2.80388065303059,2.76501881462899,2.72653228116266,2.68842105263158,2.65068512903576,2.61332451037521,2.57633919664991,2.53972918785987,2.5034944840051,2.46763508508558,2.43215099110132,2.39704220205233,2.36230871793859,2.32795053876011,2.29396766451689,2.26036009520894,2.22712783083624,2.1942708713988,2.16178921689662,2.12968286732971,2.09795182269805,2.06659608300165,2.03561564824051,2.00501051841463,1.97478069352401,1.94492617356866,1.91544695854856,1.88634304846372,1.85761444331414,1.82926114309982,1.80128314782076,1.77368045747696,1.74645307206842,1.71960099159514,1.69312421605713,1.66702274545437,1.64129657978687,1.61594571905463,1.59097016325765,1.56636991239593,1.54214496646947,1.51829532547827,1.49482098942233,1.47172195830165,1.44899823211623,1.42664981086607,1.40467669455116,1.38307888317152,1.36185637672714,1.34100917521802,1.32053727864416,1.30044068700556,1.28071940030222,1.26137341853414,1.24240274170132,1.22380736980376,1.20558730284145,1.18774254081441,1.17027308372263,1.15317893156611,1.13646008434485,1.12011654205884,1.1041483047081,1.08855537229262,1.0733377448124,1.05849542226743,1.04402840465773,1.02993669198329,1.01622028424411,1.00287918144018,0.98991338357152,0.977322890638117,0.965107702639974,0.953267819577091,0.941803241449467,0.930713968257104,0.92,0.909661336678156,0.899697978291572,0.890109924840249,0.880897176324185,0.87205973274338,0.863597594097836,0.855510760387552,0.847799231612527,0.840463007772763,0.833502088868258,0.826916474899013,0.820706165865029,0.814871161766304,0.809411462602839,0.804327068374633,0.799617979081688,0.795284194724003,0.791325715301577,0.787742540814412,0.784534671262506,0.78170210664586,0.779244846964474,0.777162892218348,0.775456242407482,0.774124897531876,0.77316885759153,0.772588122586444,0.772382692516617,0.772552567382051,0.773097747182744,0.774018231918697,0.77531402158991,0.776985116196383,0.779031515738116,0.781453220215109,0.784250229627362,0.787422543974874,0.790970163257647,0.794893087475679,0.799191316628972,0.803864850717524,0.808913689741336,0.814337833700408,0.82013728259474,0.826312036424332,0.832862095189183,0.839787458889295,0.847088127524666,0.854764101095298,0.862815379601189,0.87124196304234,0.880043851418751,0.889221044730423,0.898773542977353,0.908701346159544,0.919004454276995,0.929682867329706,0.940736585317676,0.952165608240906,0.963969936099397,0.976149568893147,0.988704506622157,1.00163474928643,1.01494029688596,1.02862114942075,1.0426773068908,1.05710876929611,1.07191553663668,1.0870976089125,1.10265498612359,1.11858766826994,1.13489565535155,1.15157894736842,1.16863754432055,1.18607144620794,1.20388065303059,1.2220651647885,1.24062498148166,1.25956010311009,1.27887052967378,1.29855626117273,1.31861729760694,1.33905363897641,1.35986528528113,1.38105223652112,1.40261449269637,1.42455205380688,1.44686491985264,1.46955309083367,1.49261656674996,1.51605534760151,1.53986943338831,1.56405882411038,1.58862351976771,1.61356352036029,1.63887882588814,1.66456943635125,1.69063535174961,1.71707657208324,1.74389309735212,1.77108492755627,1.79865206269568,1.82659450277034,1.85491224778027,1.88360529772545,1.9126736526059,1.94211731242161,1.97193627717257,2.0021305468588,2.03270012148028,2.06364500103703,2.09496518552903,2.1266606749563,2.15873146931882,2.19117756861661,2.22399897284965,2.25719568201796,2.29076769612152,2.32471501516034,2.35903763913443,2.39373556804377,2.42880880188838,2.46425734066824,2.50008118438336,2.53628033303375,2.57285478661939,2.6098045451403,2.64712960859646,2.68482997698788,2.72290565031456,2.76135662857651,2.80018291177371,2.83938449990617,2.8789613929739,2.91891359097688,2.95924109391512,2.99994390178862,3.04102201459739,3.08247543234141,3.12430415502069,3.16650818263523,3.20908751518504,3.2520421526701,3.29537209509042,3.339077342446,3.38315789473684,3.42761375196294,3.47244491412431,3.51765138122093,3.56323315325281,3.60919023021995,3.65552261212235,3.70223029896001,3.74931329073293,3.79677158744111,3.84460518908455,3.89281409566325,3.94139830717721,3.99035782362643,4.03969264501091,4.08940277133065,4.13948820258565,4.18994893877591,4.24078497990143,4.29199632596221,4.34358297695825,4.39554493288955,4.44788219375611,4.50059475955793,4.55368263029501,4.60714580596735,4.66098428657495,4.71519807211781,4.76978716259593,4.8247515580093,4.88009125835794,4.93580626364184,4.991896573861,5.04836218901542,5.1052031091051,5.16241933413003,5.22001086409023,5.27797769898569,5.33631983881641,5.39503728358238,5.45413003328362,5.51359808792012,5.57344144749188,5.63366011199889,5.69425408144117,5.75522335581871,5.8165679351315,5.87828781937956,5.94038300856288,6.00285350268146,6.06569930173529,6.12892040572439,6.19251681464875,6.25648852850836,6.32083554730324],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[28],"y":[0.772382692516617],"mode":"markers","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Part 1: Price Functio</span>
+
+<span class="co">#Question1: How much will it charge with 5 basket&#39;s order ?</span>
+<span class="kw">P</span>(<span class="dv">5</span>)</code></pre>
+<pre><code>## [1] 0.8720597</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question2: What is the first derivative of the price function?</span>
+<span class="kw">library</span>(Ryacas)
+x &lt;-<span class="st"> </span><span class="kw">Sym</span>(<span class="st">&quot;x&quot;</span>)
+s &lt;-<span class="st"> </span><span class="kw">expression</span>((x<span class="op">/</span><span class="dv">73</span>)<span class="op">^</span><span class="dv">2</span><span class="op">-</span>(x<span class="op">/</span><span class="dv">95</span>)<span class="op">+</span><span class="fl">0.92</span>)
+<span class="kw">deriv</span>(s,x) <span class="co">#Didn&#39;t work TO DO</span></code></pre>
+<pre><code>## expression({
+##     .expr1 &lt;- x/73
+##     .value &lt;- .expr1^2 - x/95 + 0.92
+##     .grad &lt;- array(0, c(length(.value), 1L), list(NULL, c(&quot;x&quot;)))
+##     .grad[, &quot;x&quot;] &lt;- 2 * (1/73 * .expr1) - 1/95
+##     attr(.value, &quot;gradient&quot;) &lt;- .grad
+##     .value
+## })</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question3: Second Derivative</span>
+x &lt;-<span class="st"> </span><span class="kw">Sym</span>(<span class="st">&quot;x&quot;</span>)
+s &lt;-<span class="st"> </span><span class="kw">expression</span>(<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">95</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">2</span><span class="op">*</span>x)<span class="op">/</span><span class="dv">5329</span>)
+<span class="kw">deriv</span>(s,x) <span class="co">#worked</span></code></pre>
+<pre><code>## expression({
+##     .value &lt;- -1/95 + 2 * x/5329
+##     .grad &lt;- array(0, c(length(.value), 1L), list(NULL, c(&quot;x&quot;)))
+##     .grad[, &quot;x&quot;] &lt;- 2/5329
+##     attr(.value, &quot;gradient&quot;) &lt;- .grad
+##     .value
+## })</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question4: Lowest Unit Price</span>
+result &lt;-<span class="st"> </span><span class="kw">optimize</span>(P,<span class="dt">interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>), <span class="dt">maximum =</span> F)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $minimum
+## [1] 28.04737
+## 
+## $objective
+## [1] 0.7723823</code></pre>
+</div>
+<div id="maximizing-storage" class="section level4">
+<h4><span class="header-section-number">1.1.2.2</span> Maximizing Storage</h4>
+<p><span class="math display">\[
+\begin{align*}
+\textbf{Minimize} &amp; \ Z = x*y \\
+\textbf{st.} \\
+&amp; 2*x+2*y = 26.7
+\end{align*}
+\]</span></p>
+<p>Simplifying <span class="math inline">\(2*x+2*y = 26.7\)</span> as <span class="math inline">\(y = (26.7 - 2*x)/2\)</span> is possible to change the optimization problem to a single variable:</p>
+<p><span class="math display">\[
+\begin{align*}
+\textbf{Minimize} &amp; \ Z\ =x\cdot\ \left(\frac{\left(26.7-2\cdot x\right)}{2}\right)\\
+\end{align*}
+\]</span></p>
+<p>Solving:</p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x){x<span class="op">*</span>((<span class="fl">26.7</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>x)<span class="op">/</span><span class="dv">2</span>)}
+result &lt;-<span class="st"> </span><span class="kw">optimize</span>(f,<span class="dt">interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>), <span class="dt">maximum =</span> T)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $maximum
+## [1] 6.675
+## 
+## $objective
+## [1] 44.55562</code></pre>
+<p>Let’s check the result in the plot</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Data created for plot, using mutate on the function</span>
+x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">100</span>,<span class="fl">0.1</span>)
+data &lt;-<span class="st"> </span>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">y =</span> <span class="kw">f</span>(x))
+
+<span class="co">#Ploting with a marker on the optimal solution</span>
+<span class="kw">plot_ly</span>(data, <span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_markers</span>(<span class="dt">y =</span> result<span class="op">$</span>objective, <span class="dt">x =</span> result<span class="op">$</span>maximum)</code></pre>
+<div id="htmlwidget-b0e20132125f5f4a1d5a" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b0e20132125f5f4a1d5a">{"x":{"visdat":{"705275f9555":["function () ","plotlyVisDat"]},"cur_data":"705275f9555","attrs":{"705275f9555":{"x":{},"y":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"705275f9555.1":{"x":6.675,"y":44.555625,"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"y"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-100,-99.9,-99.8,-99.7,-99.6,-99.5,-99.4,-99.3,-99.2,-99.1,-99,-98.9,-98.8,-98.7,-98.6,-98.5,-98.4,-98.3,-98.2,-98.1,-98,-97.9,-97.8,-97.7,-97.6,-97.5,-97.4,-97.3,-97.2,-97.1,-97,-96.9,-96.8,-96.7,-96.6,-96.5,-96.4,-96.3,-96.2,-96.1,-96,-95.9,-95.8,-95.7,-95.6,-95.5,-95.4,-95.3,-95.2,-95.1,-95,-94.9,-94.8,-94.7,-94.6,-94.5,-94.4,-94.3,-94.2,-94.1,-94,-93.9,-93.8,-93.7,-93.6,-93.5,-93.4,-93.3,-93.2,-93.1,-93,-92.9,-92.8,-92.7,-92.6,-92.5,-92.4,-92.3,-92.2,-92.1,-92,-91.9,-91.8,-91.7,-91.6,-91.5,-91.4,-91.3,-91.2,-91.1,-91,-90.9,-90.8,-90.7,-90.6,-90.5,-90.4,-90.3,-90.2,-90.1,-90,-89.9,-89.8,-89.7,-89.6,-89.5,-89.4,-89.3,-89.2,-89.1,-89,-88.9,-88.8,-88.7,-88.6,-88.5,-88.4,-88.3,-88.2,-88.1,-88,-87.9,-87.8,-87.7,-87.6,-87.5,-87.4,-87.3,-87.2,-87.1,-87,-86.9,-86.8,-86.7,-86.6,-86.5,-86.4,-86.3,-86.2,-86.1,-86,-85.9,-85.8,-85.7,-85.6,-85.5,-85.4,-85.3,-85.2,-85.1,-85,-84.9,-84.8,-84.7,-84.6,-84.5,-84.4,-84.3,-84.2,-84.1,-84,-83.9,-83.8,-83.7,-83.6,-83.5,-83.4,-83.3,-83.2,-83.1,-83,-82.9,-82.8,-82.7,-82.6,-82.5,-82.4,-82.3,-82.2,-82.1,-82,-81.9,-81.8,-81.7,-81.6,-81.5,-81.4,-81.3,-81.2,-81.1,-81,-80.9,-80.8,-80.7,-80.6,-80.5,-80.4,-80.3,-80.2,-80.1,-80,-79.9,-79.8,-79.7,-79.6,-79.5,-79.4,-79.3,-79.2,-79.1,-79,-78.9,-78.8,-78.7,-78.6,-78.5,-78.4,-78.3,-78.2,-78.1,-78,-77.9,-77.8,-77.7,-77.6,-77.5,-77.4,-77.3,-77.2,-77.1,-77,-76.9,-76.8,-76.7,-76.6,-76.5,-76.4,-76.3,-76.2,-76.1,-76,-75.9,-75.8,-75.7,-75.6,-75.5,-75.4,-75.3,-75.2,-75.1,-75,-74.9,-74.8,-74.7,-74.6,-74.5,-74.4,-74.3,-74.2,-74.1,-74,-73.9,-73.8,-73.7,-73.6,-73.5,-73.4,-73.3,-73.2,-73.1,-73,-72.9,-72.8,-72.7,-72.6,-72.5,-72.4,-72.3,-72.2,-72.1,-72,-71.9,-71.8,-71.7,-71.6,-71.5,-71.4,-71.3,-71.2,-71.1,-71,-70.9,-70.8,-70.7,-70.6,-70.5,-70.4,-70.3,-70.2,-70.1,-70,-69.9,-69.8,-69.7,-69.6,-69.5,-69.4,-69.3,-69.2,-69.1,-69,-68.9,-68.8,-68.7,-68.6,-68.5,-68.4,-68.3,-68.2,-68.1,-68,-67.9,-67.8,-67.7,-67.6,-67.5,-67.4,-67.3,-67.2,-67.1,-67,-66.9,-66.8,-66.7,-66.6,-66.5,-66.4,-66.3,-66.2,-66.1,-66,-65.9,-65.8,-65.7,-65.6,-65.5,-65.4,-65.3,-65.2,-65.1,-65,-64.9,-64.8,-64.7,-64.6,-64.5,-64.4,-64.3,-64.2,-64.1,-64,-63.9,-63.8,-63.7,-63.6,-63.5,-63.4,-63.3,-63.2,-63.1,-63,-62.9,-62.8,-62.7,-62.6,-62.5,-62.4,-62.3,-62.2,-62.1,-62,-61.9,-61.8,-61.7,-61.6,-61.5,-61.4,-61.3,-61.2,-61.1,-61,-60.9,-60.8,-60.7,-60.6,-60.5,-60.4,-60.3,-60.2,-60.1,-60,-59.9,-59.8,-59.7,-59.6,-59.5,-59.4,-59.3,-59.2,-59.1,-59,-58.9,-58.8,-58.7,-58.6,-58.5,-58.4,-58.3,-58.2,-58.1,-58,-57.9,-57.8,-57.7,-57.6,-57.5,-57.4,-57.3,-57.2,-57.1,-57,-56.9,-56.8,-56.7,-56.6,-56.5,-56.4,-56.3,-56.2,-56.1,-56,-55.9,-55.8,-55.7,-55.6,-55.5,-55.4,-55.3,-55.2,-55.1,-55,-54.9,-54.8,-54.7,-54.6,-54.5,-54.4,-54.3,-54.2,-54.1,-54,-53.9,-53.8,-53.7,-53.6,-53.5,-53.4,-53.3,-53.2,-53.1,-53,-52.9,-52.8,-52.7,-52.6,-52.5,-52.4,-52.3,-52.2,-52.1,-52,-51.9,-51.8,-51.7,-51.6,-51.5,-51.4,-51.3,-51.2,-51.1,-51,-50.9,-50.8,-50.7,-50.6,-50.5,-50.4,-50.3,-50.2,-50.1,-50,-49.9,-49.8,-49.7,-49.6,-49.5,-49.4,-49.3,-49.2,-49.1,-49,-48.9,-48.8,-48.7,-48.6,-48.5,-48.4,-48.3,-48.2,-48.1,-48,-47.9,-47.8,-47.7,-47.6,-47.5,-47.4,-47.3,-47.2,-47.1,-47,-46.9,-46.8,-46.7,-46.6,-46.5,-46.4,-46.3,-46.2,-46.1,-46,-45.9,-45.8,-45.7,-45.6,-45.5,-45.4,-45.3,-45.2,-45.1,-45,-44.9,-44.8,-44.7,-44.6,-44.5,-44.4,-44.3,-44.2,-44.1,-44,-43.9,-43.8,-43.7,-43.6,-43.5,-43.4,-43.3,-43.2,-43.1,-43,-42.9,-42.8,-42.7,-42.6,-42.5,-42.4,-42.3,-42.2,-42.1,-42,-41.9,-41.8,-41.7,-41.6,-41.5,-41.4,-41.3,-41.2,-41.1,-41,-40.9,-40.8,-40.7,-40.6,-40.5,-40.4,-40.3,-40.2,-40.1,-40,-39.9,-39.8,-39.7,-39.6,-39.5,-39.4,-39.3,-39.2,-39.1,-39,-38.9,-38.8,-38.7,-38.6,-38.5,-38.4,-38.3,-38.2,-38.1,-38,-37.9,-37.8,-37.7,-37.6,-37.5,-37.4,-37.3,-37.2,-37.1,-37,-36.9,-36.8,-36.7,-36.6,-36.5,-36.4,-36.3,-36.2,-36.1,-36,-35.9,-35.8,-35.7,-35.6,-35.5,-35.4,-35.3,-35.2,-35.1,-35,-34.9,-34.8,-34.7,-34.6,-34.5,-34.4,-34.3,-34.2,-34.1,-34,-33.9,-33.8,-33.7,-33.6,-33.5,-33.4,-33.3,-33.2,-33.1,-33,-32.9,-32.8,-32.7,-32.6,-32.5,-32.4,-32.3,-32.2,-32.1,-32,-31.9,-31.8,-31.7,-31.6,-31.5,-31.4,-31.3,-31.2,-31.1,-31,-30.9,-30.8,-30.7,-30.6,-30.5,-30.4,-30.3,-30.2,-30.1,-30,-29.9,-29.8,-29.7,-29.6,-29.5,-29.4,-29.3,-29.2,-29.1,-29,-28.9,-28.8,-28.7,-28.6,-28.5,-28.4,-28.3,-28.2,-28.1,-28,-27.9,-27.8,-27.7,-27.6,-27.5,-27.4,-27.3,-27.2,-27.1,-27,-26.9,-26.8,-26.7,-26.6,-26.5,-26.4,-26.3,-26.2,-26.1,-26,-25.9,-25.8,-25.7,-25.6,-25.5,-25.4,-25.3,-25.2,-25.1,-25,-24.9,-24.8,-24.7,-24.6,-24.5,-24.4,-24.3,-24.2,-24.1,-24,-23.9,-23.8,-23.7,-23.6,-23.5,-23.4,-23.3,-23.2,-23.1,-23,-22.9,-22.8,-22.7,-22.6,-22.5,-22.4,-22.3,-22.2,-22.1,-22,-21.9,-21.8,-21.7,-21.6,-21.5,-21.4,-21.3,-21.2,-21.1,-21,-20.9,-20.8,-20.7,-20.6,-20.5,-20.4,-20.3,-20.2,-20.1,-20,-19.9,-19.8,-19.7,-19.6,-19.5,-19.4,-19.3,-19.2,-19.1,-19,-18.9,-18.8,-18.7,-18.6,-18.5,-18.4,-18.3,-18.2,-18.1,-18,-17.9,-17.8,-17.7,-17.6,-17.5,-17.4,-17.3,-17.2,-17.1,-17,-16.9,-16.8,-16.7,-16.6,-16.5,-16.4,-16.3,-16.2,-16.1,-16,-15.9,-15.8,-15.7,-15.6,-15.5,-15.4,-15.3,-15.2,-15.1,-15,-14.9,-14.8,-14.7,-14.6,-14.5,-14.4,-14.3,-14.2,-14.1,-14,-13.9,-13.8,-13.7,-13.6,-13.5,-13.4,-13.3,-13.2,-13.1,-13,-12.9,-12.8,-12.7,-12.6,-12.5,-12.4,-12.3,-12.2,-12.1,-12,-11.9,-11.8,-11.7,-11.6,-11.5,-11.4,-11.3,-11.2,-11.1,-11,-10.9,-10.8,-10.7,-10.6,-10.5,-10.4,-10.3,-10.2,-10.1,-10,-9.89999999999999,-9.8,-9.69999999999999,-9.59999999999999,-9.5,-9.39999999999999,-9.3,-9.19999999999999,-9.09999999999999,-9,-8.89999999999999,-8.8,-8.69999999999999,-8.59999999999999,-8.5,-8.39999999999999,-8.3,-8.19999999999999,-8.09999999999999,-8,-7.89999999999999,-7.8,-7.69999999999999,-7.59999999999999,-7.5,-7.39999999999999,-7.3,-7.19999999999999,-7.09999999999999,-7,-6.89999999999999,-6.8,-6.69999999999999,-6.59999999999999,-6.5,-6.39999999999999,-6.3,-6.19999999999999,-6.09999999999999,-6,-5.89999999999999,-5.8,-5.69999999999999,-5.59999999999999,-5.5,-5.39999999999999,-5.3,-5.19999999999999,-5.09999999999999,-5,-4.89999999999999,-4.8,-4.69999999999999,-4.59999999999999,-4.5,-4.39999999999999,-4.3,-4.19999999999999,-4.09999999999999,-4,-3.89999999999999,-3.8,-3.69999999999999,-3.59999999999999,-3.5,-3.39999999999999,-3.3,-3.19999999999999,-3.09999999999999,-3,-2.89999999999999,-2.8,-2.69999999999999,-2.59999999999999,-2.5,-2.39999999999999,-2.3,-2.19999999999999,-2.09999999999999,-2,-1.89999999999999,-1.8,-1.69999999999999,-1.59999999999999,-1.5,-1.39999999999999,-1.3,-1.19999999999999,-1.09999999999999,-1,-0.899999999999991,-0.799999999999997,-0.699999999999989,-0.599999999999994,-0.5,-0.399999999999991,-0.299999999999997,-0.199999999999989,-0.0999999999999943,0,0.100000000000009,0.200000000000003,0.300000000000011,0.400000000000006,0.5,0.600000000000009,0.700000000000003,0.800000000000011,0.900000000000006,1,1.10000000000001,1.2,1.30000000000001,1.40000000000001,1.5,1.60000000000001,1.7,1.80000000000001,1.90000000000001,2,2.10000000000001,2.2,2.30000000000001,2.40000000000001,2.5,2.60000000000001,2.7,2.80000000000001,2.90000000000001,3,3.10000000000001,3.2,3.30000000000001,3.40000000000001,3.5,3.60000000000001,3.7,3.80000000000001,3.90000000000001,4,4.10000000000001,4.2,4.30000000000001,4.40000000000001,4.5,4.60000000000001,4.7,4.80000000000001,4.90000000000001,5,5.10000000000001,5.2,5.30000000000001,5.40000000000001,5.5,5.60000000000001,5.7,5.80000000000001,5.90000000000001,6,6.10000000000001,6.2,6.30000000000001,6.40000000000001,6.5,6.60000000000001,6.7,6.80000000000001,6.90000000000001,7,7.10000000000001,7.2,7.30000000000001,7.40000000000001,7.5,7.60000000000001,7.7,7.80000000000001,7.90000000000001,8,8.10000000000001,8.2,8.30000000000001,8.40000000000001,8.5,8.60000000000001,8.7,8.80000000000001,8.90000000000001,9,9.10000000000001,9.2,9.30000000000001,9.40000000000001,9.5,9.60000000000001,9.7,9.80000000000001,9.90000000000001,10,10.1,10.2,10.3,10.4,10.5,10.6,10.7,10.8,10.9,11,11.1,11.2,11.3,11.4,11.5,11.6,11.7,11.8,11.9,12,12.1,12.2,12.3,12.4,12.5,12.6,12.7,12.8,12.9,13,13.1,13.2,13.3,13.4,13.5,13.6,13.7,13.8,13.9,14,14.1,14.2,14.3,14.4,14.5,14.6,14.7,14.8,14.9,15,15.1,15.2,15.3,15.4,15.5,15.6,15.7,15.8,15.9,16,16.1,16.2,16.3,16.4,16.5,16.6,16.7,16.8,16.9,17,17.1,17.2,17.3,17.4,17.5,17.6,17.7,17.8,17.9,18,18.1,18.2,18.3,18.4,18.5,18.6,18.7,18.8,18.9,19,19.1,19.2,19.3,19.4,19.5,19.6,19.7,19.8,19.9,20,20.1,20.2,20.3,20.4,20.5,20.6,20.7,20.8,20.9,21,21.1,21.2,21.3,21.4,21.5,21.6,21.7,21.8,21.9,22,22.1,22.2,22.3,22.4,22.5,22.6,22.7,22.8,22.9,23,23.1,23.2,23.3,23.4,23.5,23.6,23.7,23.8,23.9,24,24.1,24.2,24.3,24.4,24.5,24.6,24.7,24.8,24.9,25,25.1,25.2,25.3,25.4,25.5,25.6,25.7,25.8,25.9,26,26.1,26.2,26.3,26.4,26.5,26.6,26.7,26.8,26.9,27,27.1,27.2,27.3,27.4,27.5,27.6,27.7,27.8,27.9,28,28.1,28.2,28.3,28.4,28.5,28.6,28.7,28.8,28.9,29,29.1,29.2,29.3,29.4,29.5,29.6,29.7,29.8,29.9,30,30.1,30.2,30.3,30.4,30.5,30.6,30.7,30.8,30.9,31,31.1,31.2,31.3,31.4,31.5,31.6,31.7,31.8,31.9,32,32.1,32.2,32.3,32.4,32.5,32.6,32.7,32.8,32.9,33,33.1,33.2,33.3,33.4,33.5,33.6,33.7,33.8,33.9,34,34.1,34.2,34.3,34.4,34.5,34.6,34.7,34.8,34.9,35,35.1,35.2,35.3,35.4,35.5,35.6,35.7,35.8,35.9,36,36.1,36.2,36.3,36.4,36.5,36.6,36.7,36.8,36.9,37,37.1,37.2,37.3,37.4,37.5,37.6,37.7,37.8,37.9,38,38.1,38.2,38.3,38.4,38.5,38.6,38.7,38.8,38.9,39,39.1,39.2,39.3,39.4,39.5,39.6,39.7,39.8,39.9,40,40.1,40.2,40.3,40.4,40.5,40.6,40.7,40.8,40.9,41,41.1,41.2,41.3,41.4,41.5,41.6,41.7,41.8,41.9,42,42.1,42.2,42.3,42.4,42.5,42.6,42.7,42.8,42.9,43,43.1,43.2,43.3,43.4,43.5,43.6,43.7,43.8,43.9,44,44.1,44.2,44.3,44.4,44.5,44.6,44.7,44.8,44.9,45,45.1,45.2,45.3,45.4,45.5,45.6,45.7,45.8,45.9,46,46.1,46.2,46.3,46.4,46.5,46.6,46.7,46.8,46.9,47,47.1,47.2,47.3,47.4,47.5,47.6,47.7,47.8,47.9,48,48.1,48.2,48.3,48.4,48.5,48.6,48.7,48.8,48.9,49,49.1,49.2,49.3,49.4,49.5,49.6,49.7,49.8,49.9,50,50.1,50.2,50.3,50.4,50.5,50.6,50.7,50.8,50.9,51,51.1,51.2,51.3,51.4,51.5,51.6,51.7,51.8,51.9,52,52.1,52.2,52.3,52.4,52.5,52.6,52.7,52.8,52.9,53,53.1,53.2,53.3,53.4,53.5,53.6,53.7,53.8,53.9,54,54.1,54.2,54.3,54.4,54.5,54.6,54.7,54.8,54.9,55,55.1,55.2,55.3,55.4,55.5,55.6,55.7,55.8,55.9,56,56.1,56.2,56.3,56.4,56.5,56.6,56.7,56.8,56.9,57,57.1,57.2,57.3,57.4,57.5,57.6,57.7,57.8,57.9,58,58.1,58.2,58.3,58.4,58.5,58.6,58.7,58.8,58.9,59,59.1,59.2,59.3,59.4,59.5,59.6,59.7,59.8,59.9,60,60.1,60.2,60.3,60.4,60.5,60.6,60.7,60.8,60.9,61,61.1,61.2,61.3,61.4,61.5,61.6,61.7,61.8,61.9,62,62.1,62.2,62.3,62.4,62.5,62.6,62.7,62.8,62.9,63,63.1,63.2,63.3,63.4,63.5,63.6,63.7,63.8,63.9,64,64.1,64.2,64.3,64.4,64.5,64.6,64.7,64.8,64.9,65,65.1,65.2,65.3,65.4,65.5,65.6,65.7,65.8,65.9,66,66.1,66.2,66.3,66.4,66.5,66.6,66.7,66.8,66.9,67,67.1,67.2,67.3,67.4,67.5,67.6,67.7,67.8,67.9,68,68.1,68.2,68.3,68.4,68.5,68.6,68.7,68.8,68.9,69,69.1,69.2,69.3,69.4,69.5,69.6,69.7,69.8,69.9,70,70.1,70.2,70.3,70.4,70.5,70.6,70.7,70.8,70.9,71,71.1,71.2,71.3,71.4,71.5,71.6,71.7,71.8,71.9,72,72.1,72.2,72.3,72.4,72.5,72.6,72.7,72.8,72.9,73,73.1,73.2,73.3,73.4,73.5,73.6,73.7,73.8,73.9,74,74.1,74.2,74.3,74.4,74.5,74.6,74.7,74.8,74.9,75,75.1,75.2,75.3,75.4,75.5,75.6,75.7,75.8,75.9,76,76.1,76.2,76.3,76.4,76.5,76.6,76.7,76.8,76.9,77,77.1,77.2,77.3,77.4,77.5,77.6,77.7,77.8,77.9,78,78.1,78.2,78.3,78.4,78.5,78.6,78.7,78.8,78.9,79,79.1,79.2,79.3,79.4,79.5,79.6,79.7,79.8,79.9,80,80.1,80.2,80.3,80.4,80.5,80.6,80.7,80.8,80.9,81,81.1,81.2,81.3,81.4,81.5,81.6,81.7,81.8,81.9,82,82.1,82.2,82.3,82.4,82.5,82.6,82.7,82.8,82.9,83,83.1,83.2,83.3,83.4,83.5,83.6,83.7,83.8,83.9,84,84.1,84.2,84.3,84.4,84.5,84.6,84.7,84.8,84.9,85,85.1,85.2,85.3,85.4,85.5,85.6,85.7,85.8,85.9,86,86.1,86.2,86.3,86.4,86.5,86.6,86.7,86.8,86.9,87,87.1,87.2,87.3,87.4,87.5,87.6,87.7,87.8,87.9,88,88.1,88.2,88.3,88.4,88.5,88.6,88.7,88.8,88.9,89,89.1,89.2,89.3,89.4,89.5,89.6,89.7,89.8,89.9,90,90.1,90.2,90.3,90.4,90.5,90.6,90.7,90.8,90.9,91,91.1,91.2,91.3,91.4,91.5,91.6,91.7,91.8,91.9,92,92.1,92.2,92.3,92.4,92.5,92.6,92.7,92.8,92.9,93,93.1,93.2,93.3,93.4,93.5,93.6,93.7,93.8,93.9,94,94.1,94.2,94.3,94.4,94.5,94.6,94.7,94.8,94.9,95,95.1,95.2,95.3,95.4,95.5,95.6,95.7,95.8,95.9,96,96.1,96.2,96.3,96.4,96.5,96.6,96.7,96.8,96.9,97,97.1,97.2,97.3,97.4,97.5,97.6,97.7,97.8,97.9,98,98.1,98.2,98.3,98.4,98.5,98.6,98.7,98.8,98.9,99,99.1,99.2,99.3,99.4,99.5,99.6,99.7,99.8,99.9,100],"y":[-11335,-11313.675,-11292.37,-11271.085,-11249.82,-11228.575,-11207.35,-11186.145,-11164.96,-11143.795,-11122.65,-11101.525,-11080.42,-11059.335,-11038.27,-11017.225,-10996.2,-10975.195,-10954.21,-10933.245,-10912.3,-10891.375,-10870.47,-10849.585,-10828.72,-10807.875,-10787.05,-10766.245,-10745.46,-10724.695,-10703.95,-10683.225,-10662.52,-10641.835,-10621.17,-10600.525,-10579.9,-10559.295,-10538.71,-10518.145,-10497.6,-10477.075,-10456.57,-10436.085,-10415.62,-10395.175,-10374.75,-10354.345,-10333.96,-10313.595,-10293.25,-10272.925,-10252.62,-10232.335,-10212.07,-10191.825,-10171.6,-10151.395,-10131.21,-10111.045,-10090.9,-10070.775,-10050.67,-10030.585,-10010.52,-9990.475,-9970.45,-9950.445,-9930.46,-9910.495,-9890.55,-9870.625,-9850.72,-9830.835,-9810.97,-9791.125,-9771.3,-9751.495,-9731.71,-9711.945,-9692.2,-9672.475,-9652.77,-9633.085,-9613.42,-9593.775,-9574.15,-9554.545,-9534.96,-9515.395,-9495.85,-9476.325,-9456.82,-9437.335,-9417.87,-9398.425,-9379,-9359.595,-9340.21,-9320.845,-9301.5,-9282.175,-9262.87,-9243.585,-9224.32,-9205.075,-9185.85,-9166.645,-9147.46,-9128.295,-9109.15,-9090.025,-9070.92,-9051.835,-9032.77,-9013.725,-8994.7,-8975.695,-8956.71,-8937.745,-8918.8,-8899.875,-8880.97,-8862.085,-8843.22,-8824.375,-8805.55,-8786.745,-8767.96,-8749.195,-8730.45,-8711.725,-8693.02,-8674.335,-8655.67,-8637.025,-8618.4,-8599.795,-8581.21,-8562.645,-8544.1,-8525.575,-8507.07,-8488.585,-8470.12,-8451.675,-8433.25,-8414.845,-8396.46,-8378.095,-8359.75,-8341.425,-8323.12,-8304.835,-8286.57,-8268.325,-8250.1,-8231.895,-8213.71,-8195.545,-8177.4,-8159.275,-8141.17,-8123.085,-8105.02,-8086.975,-8068.95,-8050.945,-8032.96,-8014.995,-7997.05,-7979.125,-7961.22,-7943.335,-7925.47,-7907.625,-7889.8,-7871.995,-7854.21,-7836.445,-7818.7,-7800.975,-7783.27,-7765.585,-7747.92,-7730.275,-7712.65,-7695.045,-7677.46,-7659.895,-7642.35,-7624.825,-7607.32,-7589.835,-7572.37,-7554.925,-7537.5,-7520.095,-7502.71,-7485.345,-7468,-7450.675,-7433.37,-7416.085,-7398.82,-7381.575,-7364.35,-7347.145,-7329.96,-7312.795,-7295.65,-7278.525,-7261.42,-7244.335,-7227.27,-7210.225,-7193.2,-7176.195,-7159.21,-7142.245,-7125.3,-7108.375,-7091.47,-7074.585,-7057.72,-7040.875,-7024.05,-7007.245,-6990.46,-6973.695,-6956.95,-6940.225,-6923.52,-6906.835,-6890.17,-6873.525,-6856.9,-6840.295,-6823.71,-6807.145,-6790.6,-6774.075,-6757.57,-6741.085,-6724.62,-6708.175,-6691.75,-6675.345,-6658.96,-6642.595,-6626.25,-6609.925,-6593.62,-6577.335,-6561.07,-6544.825,-6528.6,-6512.395,-6496.21,-6480.045,-6463.9,-6447.775,-6431.67,-6415.585,-6399.52,-6383.475,-6367.45,-6351.445,-6335.46,-6319.495,-6303.55,-6287.625,-6271.72,-6255.835,-6239.97,-6224.125,-6208.3,-6192.495,-6176.71,-6160.945,-6145.2,-6129.475,-6113.77,-6098.085,-6082.42,-6066.775,-6051.15,-6035.545,-6019.96,-6004.395,-5988.85,-5973.325,-5957.82,-5942.335,-5926.87,-5911.425,-5896,-5880.595,-5865.21,-5849.845,-5834.5,-5819.175,-5803.87,-5788.585,-5773.32,-5758.075,-5742.85,-5727.645,-5712.46,-5697.295,-5682.15,-5667.025,-5651.92,-5636.835,-5621.77,-5606.725,-5591.7,-5576.695,-5561.71,-5546.745,-5531.8,-5516.875,-5501.97,-5487.085,-5472.22,-5457.375,-5442.55,-5427.745,-5412.96,-5398.195,-5383.45,-5368.725,-5354.02,-5339.335,-5324.67,-5310.025,-5295.4,-5280.795,-5266.21,-5251.645,-5237.1,-5222.575,-5208.07,-5193.585,-5179.12,-5164.675,-5150.25,-5135.845,-5121.46,-5107.095,-5092.75,-5078.425,-5064.12,-5049.835,-5035.57,-5021.325,-5007.1,-4992.895,-4978.71,-4964.545,-4950.4,-4936.275,-4922.17,-4908.085,-4894.02,-4879.975,-4865.95,-4851.945,-4837.96,-4823.995,-4810.05,-4796.125,-4782.22,-4768.335,-4754.47,-4740.625,-4726.8,-4712.995,-4699.21,-4685.445,-4671.7,-4657.975,-4644.27,-4630.585,-4616.92,-4603.275,-4589.65,-4576.045,-4562.46,-4548.895,-4535.35,-4521.825,-4508.32,-4494.835,-4481.37,-4467.925,-4454.5,-4441.095,-4427.71,-4414.345,-4401,-4387.675,-4374.37,-4361.085,-4347.82,-4334.575,-4321.35,-4308.145,-4294.96,-4281.795,-4268.65,-4255.525,-4242.42,-4229.335,-4216.27,-4203.225,-4190.2,-4177.195,-4164.21,-4151.245,-4138.3,-4125.375,-4112.47,-4099.585,-4086.72,-4073.875,-4061.05,-4048.245,-4035.46,-4022.695,-4009.95,-3997.225,-3984.52,-3971.835,-3959.17,-3946.525,-3933.9,-3921.295,-3908.71,-3896.145,-3883.6,-3871.075,-3858.57,-3846.085,-3833.62,-3821.175,-3808.75,-3796.345,-3783.96,-3771.595,-3759.25,-3746.925,-3734.62,-3722.335,-3710.07,-3697.825,-3685.6,-3673.395,-3661.21,-3649.045,-3636.9,-3624.775,-3612.67,-3600.585,-3588.52,-3576.475,-3564.45,-3552.445,-3540.46,-3528.495,-3516.55,-3504.625,-3492.72,-3480.835,-3468.97,-3457.125,-3445.3,-3433.495,-3421.71,-3409.945,-3398.2,-3386.475,-3374.77,-3363.085,-3351.42,-3339.775,-3328.15,-3316.545,-3304.96,-3293.395,-3281.85,-3270.325,-3258.82,-3247.335,-3235.87,-3224.425,-3213,-3201.595,-3190.21,-3178.845,-3167.5,-3156.175,-3144.87,-3133.585,-3122.32,-3111.075,-3099.85,-3088.645,-3077.46,-3066.295,-3055.15,-3044.025,-3032.92,-3021.835,-3010.77,-2999.725,-2988.7,-2977.695,-2966.71,-2955.745,-2944.8,-2933.875,-2922.97,-2912.085,-2901.22,-2890.375,-2879.55,-2868.745,-2857.96,-2847.195,-2836.45,-2825.725,-2815.02,-2804.335,-2793.67,-2783.025,-2772.4,-2761.795,-2751.21,-2740.645,-2730.1,-2719.575,-2709.07,-2698.585,-2688.12,-2677.675,-2667.25,-2656.845,-2646.46,-2636.095,-2625.75,-2615.425,-2605.12,-2594.835,-2584.57,-2574.325,-2564.1,-2553.895,-2543.71,-2533.545,-2523.4,-2513.275,-2503.17,-2493.085,-2483.02,-2472.975,-2462.95,-2452.945,-2442.96,-2432.995,-2423.05,-2413.125,-2403.22,-2393.335,-2383.47,-2373.625,-2363.8,-2353.995,-2344.21,-2334.445,-2324.7,-2314.975,-2305.27,-2295.585,-2285.92,-2276.275,-2266.65,-2257.045,-2247.46,-2237.895,-2228.35,-2218.825,-2209.32,-2199.835,-2190.37,-2180.925,-2171.5,-2162.095,-2152.71,-2143.345,-2134,-2124.675,-2115.37,-2106.085,-2096.82,-2087.575,-2078.35,-2069.145,-2059.96,-2050.795,-2041.65,-2032.525,-2023.42,-2014.335,-2005.27,-1996.225,-1987.2,-1978.195,-1969.21,-1960.245,-1951.3,-1942.375,-1933.47,-1924.585,-1915.72,-1906.875,-1898.05,-1889.245,-1880.46,-1871.695,-1862.95,-1854.225,-1845.52,-1836.835,-1828.17,-1819.525,-1810.9,-1802.295,-1793.71,-1785.145,-1776.6,-1768.075,-1759.57,-1751.085,-1742.62,-1734.175,-1725.75,-1717.345,-1708.96,-1700.595,-1692.25,-1683.925,-1675.62,-1667.335,-1659.07,-1650.825,-1642.6,-1634.395,-1626.21,-1618.045,-1609.9,-1601.775,-1593.67,-1585.585,-1577.52,-1569.475,-1561.45,-1553.445,-1545.46,-1537.495,-1529.55,-1521.625,-1513.72,-1505.835,-1497.97,-1490.125,-1482.3,-1474.495,-1466.71,-1458.945,-1451.2,-1443.475,-1435.77,-1428.085,-1420.42,-1412.775,-1405.15,-1397.545,-1389.96,-1382.395,-1374.85,-1367.325,-1359.82,-1352.335,-1344.87,-1337.425,-1330,-1322.595,-1315.21,-1307.845,-1300.5,-1293.175,-1285.87,-1278.585,-1271.32,-1264.075,-1256.85,-1249.645,-1242.46,-1235.295,-1228.15,-1221.025,-1213.92,-1206.835,-1199.77,-1192.725,-1185.7,-1178.695,-1171.71,-1164.745,-1157.8,-1150.875,-1143.97,-1137.085,-1130.22,-1123.375,-1116.55,-1109.745,-1102.96,-1096.195,-1089.45,-1082.725,-1076.02,-1069.335,-1062.67,-1056.025,-1049.4,-1042.795,-1036.21,-1029.645,-1023.1,-1016.575,-1010.07,-1003.585,-997.12,-990.675,-984.25,-977.845,-971.46,-965.095,-958.75,-952.424999999999,-946.12,-939.835,-933.57,-927.325,-921.099999999999,-914.895,-908.71,-902.545,-896.4,-890.275,-884.17,-878.085,-872.02,-865.975,-859.949999999999,-853.945,-847.959999999999,-841.995,-836.05,-830.125,-824.22,-818.334999999999,-812.47,-806.625,-800.799999999999,-794.995,-789.209999999999,-783.445,-777.7,-771.975,-766.27,-760.584999999999,-754.92,-749.275,-743.65,-738.045,-732.459999999999,-726.895,-721.35,-715.825,-710.32,-704.834999999999,-699.37,-693.925,-688.5,-683.095,-677.709999999999,-672.345,-667,-661.675,-656.37,-651.084999999999,-645.82,-640.575,-635.35,-630.145,-624.959999999999,-619.795,-614.65,-609.525,-604.42,-599.334999999999,-594.27,-589.225,-584.2,-579.195,-574.209999999999,-569.245,-564.3,-559.375,-554.47,-549.584999999999,-544.72,-539.875,-535.05,-530.245,-525.459999999999,-520.695,-515.95,-511.225,-506.52,-501.834999999999,-497.17,-492.525,-487.9,-483.295,-478.71,-474.145,-469.6,-465.075,-460.57,-456.085,-451.62,-447.175,-442.75,-438.345,-433.96,-429.595,-425.25,-420.925,-416.62,-412.335,-408.07,-403.825,-399.6,-395.395,-391.21,-387.045,-382.9,-378.775,-374.67,-370.585,-366.52,-362.475,-358.45,-354.445,-350.46,-346.495,-342.55,-338.625,-334.72,-330.835,-326.97,-323.125,-319.3,-315.495,-311.71,-307.945,-304.2,-300.475,-296.77,-293.085,-289.42,-285.775,-282.15,-278.545,-274.96,-271.395,-267.85,-264.325,-260.82,-257.335,-253.87,-250.425,-247,-243.595,-240.21,-236.845,-233.5,-230.175,-226.87,-223.585,-220.32,-217.075,-213.85,-210.645,-207.46,-204.295,-201.15,-198.025,-194.92,-191.835,-188.77,-185.725,-182.7,-179.695,-176.71,-173.745,-170.8,-167.875,-164.97,-162.085,-159.22,-156.375,-153.55,-150.745,-147.96,-145.195,-142.45,-139.725,-137.02,-134.335,-131.67,-129.025,-126.4,-123.795,-121.21,-118.645,-116.1,-113.575,-111.07,-108.585,-106.12,-103.675,-101.25,-98.8449999999999,-96.4599999999997,-94.0949999999999,-91.75,-89.4249999999998,-87.1199999999999,-84.8349999999998,-82.5699999999999,-80.325,-78.0999999999998,-75.8949999999999,-73.7099999999998,-71.5449999999999,-69.4,-67.2749999999998,-65.1699999999999,-63.0849999999998,-61.0199999999999,-58.975,-56.9499999999998,-54.945,-52.9599999999998,-50.9949999999999,-49.05,-47.1249999999998,-45.2199999999999,-43.3349999999998,-41.4699999999999,-39.625,-37.7999999999998,-35.9949999999999,-34.2099999999998,-32.4449999999999,-30.7,-28.9749999999999,-27.2699999999999,-25.5849999999998,-23.9199999999999,-22.275,-20.6499999999999,-19.045,-17.4599999999998,-15.8949999999999,-14.35,-12.8249999999999,-11.32,-9.83499999999983,-8.36999999999992,-6.925,-5.49999999999988,-4.09499999999996,-2.70999999999984,-1.34499999999992,0,1.32500000000011,2.63000000000004,3.91500000000014,5.18000000000007,6.425,7.6500000000001,8.85500000000003,10.0400000000001,11.2050000000001,12.35,13.4750000000001,14.58,15.6650000000001,16.7300000000001,17.775,18.8000000000001,19.805,20.7900000000001,21.7550000000001,22.7,23.6250000000001,24.53,25.4150000000001,26.28,27.125,27.9500000000001,28.755,29.5400000000001,30.305,31.05,31.7750000000001,32.48,33.1650000000001,33.83,34.475,35.1000000000001,35.705,36.2900000000001,36.855,37.4,37.925,38.43,38.9150000000001,39.38,39.825,40.25,40.655,41.04,41.405,41.75,42.075,42.38,42.665,42.93,43.175,43.4,43.605,43.79,43.955,44.1,44.225,44.33,44.415,44.48,44.525,44.55,44.555,44.54,44.505,44.45,44.375,44.28,44.165,44.03,43.875,43.7,43.505,43.29,43.055,42.8,42.525,42.23,41.915,41.58,41.225,40.85,40.455,40.0399999999999,39.605,39.15,38.675,38.18,37.6649999999999,37.13,36.575,35.9999999999999,35.405,34.7899999999999,34.155,33.5,32.8249999999999,32.13,31.4149999999999,30.68,29.925,29.1499999999999,28.355,27.5399999999999,26.7049999999999,25.85,24.9749999999999,24.08,23.1649999999999,22.2299999999999,21.275,20.2999999999999,19.305,18.2899999999999,17.2549999999999,16.2,15.1249999999999,14.03,12.9149999999999,11.7799999999999,10.625,9.44999999999989,8.25499999999996,7.03999999999986,5.80499999999992,4.55,3.27499999999989,1.97999999999996,0.664999999999845,-0.670000000000081,-2.025,-3.40000000000012,-4.79500000000005,-6.21000000000017,-7.64500000000009,-9.1,-10.5750000000001,-12.07,-13.5850000000002,-15.1200000000001,-16.675,-18.2500000000001,-19.8450000000001,-21.4600000000002,-23.0950000000001,-24.75,-26.4250000000001,-28.1200000000001,-29.8350000000002,-31.5700000000001,-33.325,-35.1000000000002,-36.8950000000001,-38.7100000000002,-40.5450000000001,-42.4,-44.2750000000002,-46.1700000000001,-48.0850000000002,-50.0200000000001,-51.975,-53.9500000000002,-55.9450000000001,-57.9600000000002,-59.9950000000001,-62.05,-64.1250000000002,-66.2200000000001,-68.3350000000002,-70.4700000000001,-72.625,-74.8000000000002,-76.9950000000001,-79.2100000000003,-81.4450000000001,-83.7,-85.9750000000002,-88.2700000000001,-90.5850000000003,-92.9200000000001,-95.275,-97.6500000000002,-100.045,-102.46,-104.895,-107.35,-109.825,-112.32,-114.835,-117.37,-119.925,-122.5,-125.095,-127.71,-130.345,-133,-135.675,-138.37,-141.085,-143.82,-146.575,-149.35,-152.145,-154.96,-157.795,-160.65,-163.525,-166.42,-169.335,-172.27,-175.225,-178.2,-181.195,-184.21,-187.245,-190.3,-193.375,-196.47,-199.585,-202.72,-205.875,-209.05,-212.245,-215.46,-218.695,-221.95,-225.225,-228.52,-231.835,-235.17,-238.525,-241.9,-245.295,-248.71,-252.145,-255.6,-259.075,-262.57,-266.085,-269.62,-273.175,-276.75,-280.345,-283.96,-287.595,-291.25,-294.925,-298.62,-302.335,-306.07,-309.825,-313.6,-317.395,-321.21,-325.045,-328.9,-332.775,-336.67,-340.585,-344.52,-348.475,-352.45,-356.445,-360.46,-364.495,-368.55,-372.625,-376.72,-380.835,-384.97,-389.125,-393.3,-397.495,-401.71,-405.945,-410.2,-414.475,-418.770000000001,-423.085,-427.42,-431.775,-436.15,-440.545000000001,-444.96,-449.395,-453.85,-458.325,-462.820000000001,-467.335000000001,-471.87,-476.425,-481,-485.595000000001,-490.21,-494.845,-499.5,-504.175,-508.870000000001,-513.585,-518.32,-523.075,-527.85,-532.645000000001,-537.46,-542.295,-547.15,-552.025,-556.920000000001,-561.835,-566.77,-571.725,-576.7,-581.695000000001,-586.71,-591.745,-596.8,-601.875,-606.970000000001,-612.085,-617.22,-622.375,-627.55,-632.745000000001,-637.96,-643.195,-648.45,-653.725,-659.020000000001,-664.335000000001,-669.67,-675.025,-680.4,-685.795000000001,-691.210000000001,-696.645,-702.1,-707.575,-713.070000000001,-718.585000000001,-724.12,-729.675,-735.25,-740.845000000001,-746.460000000001,-752.095,-757.75,-763.425,-769.120000000001,-774.835000000001,-780.57,-786.325,-792.1,-797.895000000001,-803.710000000001,-809.545,-815.4,-821.275,-827.170000000001,-833.085000000001,-839.02,-844.975,-850.95,-856.945000000001,-862.960000000001,-868.995,-875.05,-881.125,-887.220000000001,-893.335000000001,-899.47,-905.625,-911.8,-917.995000000001,-924.210000000001,-930.445,-936.7,-942.975,-949.270000000001,-955.585000000001,-961.92,-968.275,-974.65,-981.045000000001,-987.460000000001,-993.895,-1000.35,-1006.825,-1013.32,-1019.835,-1026.37,-1032.925,-1039.5,-1046.095,-1052.71,-1059.345,-1066,-1072.675,-1079.37,-1086.085,-1092.82,-1099.575,-1106.35,-1113.145,-1119.96,-1126.795,-1133.65,-1140.525,-1147.42,-1154.335,-1161.27,-1168.225,-1175.2,-1182.195,-1189.21,-1196.245,-1203.3,-1210.375,-1217.47,-1224.585,-1231.72,-1238.875,-1246.05,-1253.245,-1260.46,-1267.695,-1274.95,-1282.225,-1289.52,-1296.835,-1304.17,-1311.525,-1318.9,-1326.295,-1333.71,-1341.145,-1348.6,-1356.075,-1363.57,-1371.085,-1378.62,-1386.175,-1393.75,-1401.345,-1408.96,-1416.595,-1424.25,-1431.925,-1439.62,-1447.335,-1455.07,-1462.825,-1470.6,-1478.395,-1486.21,-1494.045,-1501.9,-1509.775,-1517.67,-1525.585,-1533.52,-1541.475,-1549.45,-1557.445,-1565.46,-1573.495,-1581.55,-1589.625,-1597.72,-1605.835,-1613.97,-1622.125,-1630.3,-1638.495,-1646.71,-1654.945,-1663.2,-1671.475,-1679.77,-1688.085,-1696.42,-1704.775,-1713.15,-1721.545,-1729.96,-1738.395,-1746.85,-1755.325,-1763.82,-1772.335,-1780.87,-1789.425,-1798,-1806.595,-1815.21,-1823.845,-1832.5,-1841.175,-1849.87,-1858.585,-1867.32,-1876.075,-1884.85,-1893.645,-1902.46,-1911.295,-1920.15,-1929.025,-1937.92,-1946.835,-1955.77,-1964.725,-1973.7,-1982.695,-1991.71,-2000.745,-2009.8,-2018.875,-2027.97,-2037.085,-2046.22,-2055.375,-2064.55,-2073.745,-2082.96,-2092.195,-2101.45,-2110.725,-2120.02,-2129.335,-2138.67,-2148.025,-2157.4,-2166.795,-2176.21,-2185.645,-2195.1,-2204.575,-2214.07,-2223.585,-2233.12,-2242.675,-2252.25,-2261.845,-2271.46,-2281.095,-2290.75,-2300.425,-2310.12,-2319.835,-2329.57,-2339.325,-2349.1,-2358.895,-2368.71,-2378.545,-2388.4,-2398.275,-2408.17,-2418.085,-2428.02,-2437.975,-2447.95,-2457.945,-2467.96,-2477.995,-2488.05,-2498.125,-2508.22,-2518.335,-2528.47,-2538.625,-2548.8,-2558.995,-2569.21,-2579.445,-2589.7,-2599.975,-2610.27,-2620.585,-2630.92,-2641.275,-2651.65,-2662.045,-2672.46,-2682.895,-2693.35,-2703.825,-2714.32,-2724.835,-2735.37,-2745.925,-2756.5,-2767.095,-2777.71,-2788.345,-2799,-2809.675,-2820.37,-2831.085,-2841.82,-2852.575,-2863.35,-2874.145,-2884.96,-2895.795,-2906.65,-2917.525,-2928.42,-2939.335,-2950.27,-2961.225,-2972.2,-2983.195,-2994.21,-3005.245,-3016.3,-3027.375,-3038.47,-3049.585,-3060.72,-3071.875,-3083.05,-3094.245,-3105.46,-3116.695,-3127.95,-3139.225,-3150.52,-3161.835,-3173.17,-3184.525,-3195.9,-3207.295,-3218.71,-3230.145,-3241.6,-3253.075,-3264.57,-3276.085,-3287.62,-3299.175,-3310.75,-3322.345,-3333.96,-3345.595,-3357.25,-3368.925,-3380.62,-3392.335,-3404.07,-3415.825,-3427.6,-3439.395,-3451.21,-3463.045,-3474.9,-3486.775,-3498.67,-3510.585,-3522.52,-3534.475,-3546.45,-3558.445,-3570.46,-3582.495,-3594.55,-3606.625,-3618.72,-3630.835,-3642.97,-3655.125,-3667.3,-3679.495,-3691.71,-3703.945,-3716.2,-3728.475,-3740.77,-3753.085,-3765.42,-3777.775,-3790.15,-3802.545,-3814.96,-3827.395,-3839.85,-3852.325,-3864.82,-3877.335,-3889.87,-3902.425,-3915,-3927.595,-3940.21,-3952.845,-3965.5,-3978.175,-3990.87,-4003.585,-4016.32,-4029.075,-4041.85,-4054.645,-4067.46,-4080.295,-4093.15,-4106.025,-4118.92,-4131.835,-4144.77,-4157.725,-4170.7,-4183.695,-4196.71,-4209.745,-4222.8,-4235.875,-4248.97,-4262.085,-4275.22,-4288.375,-4301.55,-4314.745,-4327.96,-4341.195,-4354.45,-4367.725,-4381.02,-4394.335,-4407.67,-4421.025,-4434.4,-4447.795,-4461.21,-4474.645,-4488.1,-4501.575,-4515.07,-4528.585,-4542.12,-4555.675,-4569.25,-4582.845,-4596.46,-4610.095,-4623.75,-4637.425,-4651.12,-4664.835,-4678.57,-4692.325,-4706.1,-4719.895,-4733.71,-4747.545,-4761.4,-4775.275,-4789.17,-4803.085,-4817.02,-4830.975,-4844.95,-4858.945,-4872.96,-4886.995,-4901.05,-4915.125,-4929.22,-4943.335,-4957.47,-4971.625,-4985.8,-4999.995,-5014.21,-5028.445,-5042.7,-5056.975,-5071.27,-5085.585,-5099.92,-5114.275,-5128.65,-5143.045,-5157.46,-5171.895,-5186.35,-5200.825,-5215.32,-5229.835,-5244.37,-5258.925,-5273.5,-5288.095,-5302.71,-5317.345,-5332,-5346.675,-5361.37,-5376.085,-5390.82,-5405.575,-5420.35,-5435.145,-5449.96,-5464.795,-5479.65,-5494.525,-5509.42,-5524.335,-5539.27,-5554.225,-5569.2,-5584.195,-5599.21,-5614.245,-5629.3,-5644.375,-5659.47,-5674.585,-5689.72,-5704.875,-5720.05,-5735.245,-5750.46,-5765.695,-5780.95,-5796.225,-5811.52,-5826.835,-5842.17,-5857.525,-5872.9,-5888.295,-5903.71,-5919.145,-5934.6,-5950.075,-5965.57,-5981.085,-5996.62,-6012.175,-6027.75,-6043.345,-6058.96,-6074.595,-6090.25,-6105.925,-6121.62,-6137.335,-6153.07,-6168.825,-6184.6,-6200.395,-6216.21,-6232.045,-6247.9,-6263.775,-6279.67,-6295.585,-6311.52,-6327.475,-6343.45,-6359.445,-6375.46,-6391.495,-6407.55,-6423.625,-6439.72,-6455.835,-6471.97,-6488.125,-6504.3,-6520.495,-6536.71,-6552.945,-6569.2,-6585.475,-6601.77,-6618.085,-6634.42,-6650.775,-6667.15,-6683.545,-6699.96,-6716.395,-6732.85,-6749.325,-6765.82,-6782.335,-6798.87,-6815.425,-6832,-6848.595,-6865.21,-6881.845,-6898.5,-6915.175,-6931.87,-6948.585,-6965.32,-6982.075,-6998.85,-7015.645,-7032.46,-7049.295,-7066.15,-7083.025,-7099.92,-7116.835,-7133.77,-7150.725,-7167.7,-7184.695,-7201.71,-7218.745,-7235.8,-7252.875,-7269.97,-7287.085,-7304.22,-7321.375,-7338.55,-7355.745,-7372.96,-7390.195,-7407.45,-7424.725,-7442.02,-7459.335,-7476.67,-7494.025,-7511.4,-7528.795,-7546.21,-7563.645,-7581.1,-7598.575,-7616.07,-7633.585,-7651.12,-7668.675,-7686.25,-7703.845,-7721.46,-7739.095,-7756.75,-7774.425,-7792.12,-7809.835,-7827.57,-7845.325,-7863.1,-7880.895,-7898.71,-7916.545,-7934.4,-7952.275,-7970.17,-7988.085,-8006.02,-8023.975,-8041.95,-8059.945,-8077.96,-8095.995,-8114.05,-8132.125,-8150.22,-8168.335,-8186.47,-8204.625,-8222.8,-8240.995,-8259.21,-8277.445,-8295.7,-8313.975,-8332.27,-8350.585,-8368.92,-8387.275,-8405.65000000001,-8424.045,-8442.46,-8460.895,-8479.35,-8497.825,-8516.32,-8534.835,-8553.37,-8571.925,-8590.50000000001,-8609.095,-8627.71,-8646.345,-8665],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[6.675],"y":[44.555625],"mode":"markers","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="marketing-magicpuppy" class="section level4">
+<h4><span class="header-section-number">1.1.2.3</span> Marketing MagicPuppy</h4>
+<p><span class="math display">\[
+N = 1700 \left ( \frac{x}{90} - \left ( \frac{x}{90} \right ) ^2 \right )
+\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="dv">1700</span><span class="op">*</span>(x<span class="op">/</span><span class="dv">90</span><span class="op">-</span>(x<span class="op">/</span><span class="dv">90</span>)<span class="op">^</span><span class="dv">2</span>)}
+
+<span class="co">#Question1: First derivative</span>
+x &lt;-<span class="st"> </span><span class="kw">Sym</span>(<span class="st">&quot;x&quot;</span>)
+s &lt;-<span class="st"> </span><span class="kw">expression</span>(<span class="dv">1700</span><span class="op">*</span>(x<span class="op">/</span><span class="dv">90</span><span class="op">-</span>(x<span class="op">/</span><span class="dv">90</span>)<span class="op">^</span><span class="dv">2</span>))
+<span class="kw">deriv</span>(s,x) <span class="co">#Didn&#39;t work TO DO</span></code></pre>
+<pre><code>## expression({
+##     .expr1 &lt;- x/90
+##     .expr5 &lt;- 1/90
+##     .value &lt;- 1700 * (.expr1 - .expr1^2)
+##     .grad &lt;- array(0, c(length(.value), 1L), list(NULL, c(&quot;x&quot;)))
+##     .grad[, &quot;x&quot;] &lt;- 1700 * (.expr5 - 2 * (.expr5 * .expr1))
+##     attr(.value, &quot;gradient&quot;) &lt;- .grad
+##     .value
+## })</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question2: How many units should be given away in the campaign in order to maximize its positive impact?</span>
+result &lt;-<span class="st"> </span><span class="kw">optimize</span>(f,<span class="dt">interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>,<span class="dv">200</span>), <span class="dt">maximum =</span> T)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $maximum
+## [1] 45
+## 
+## $objective
+## [1] 425</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">50</span>,<span class="dv">100</span>,<span class="dv">1</span>)
+data &lt;-<span class="st"> </span>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">y =</span> <span class="kw">f</span>(x))
+
+<span class="co">#Ploting with a marker on the optimal solution</span>
+<span class="kw">plot_ly</span>(data, <span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_markers</span>(<span class="dt">y =</span> result<span class="op">$</span>objective, <span class="dt">x =</span> result<span class="op">$</span>maximum)</code></pre>
+<div id="htmlwidget-45ebceb5c7c66538448f" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-45ebceb5c7c66538448f">{"x":{"visdat":{"7051e60cb7b":["function () ","plotlyVisDat"]},"cur_data":"7051e60cb7b","attrs":{"7051e60cb7b":{"x":{},"y":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"7051e60cb7b.1":{"x":45,"y":425,"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"y"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-50,-49,-48,-47,-46,-45,-44,-43,-42,-41,-40,-39,-38,-37,-36,-35,-34,-33,-32,-31,-30,-29,-28,-27,-26,-25,-24,-23,-22,-21,-20,-19,-18,-17,-16,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],"y":[-1469.13580246914,-1429.46913580247,-1390.22222222222,-1351.3950617284,-1312.98765432099,-1275,-1237.43209876543,-1200.28395061728,-1163.55555555556,-1127.24691358025,-1091.35802469136,-1055.88888888889,-1020.83950617284,-986.20987654321,-952,-918.20987654321,-884.839506172839,-851.888888888889,-819.358024691358,-787.246913580247,-755.555555555556,-724.283950617284,-693.432098765432,-663,-632.987654320988,-603.395061728395,-574.222222222222,-545.469135802469,-517.135802469136,-489.222222222222,-461.728395061728,-434.654320987654,-408,-381.765432098765,-355.950617283951,-330.555555555555,-305.58024691358,-281.024691358025,-256.888888888889,-233.172839506173,-209.876543209877,-187,-164.543209876543,-142.506172839506,-120.888888888889,-99.6913580246914,-78.9135802469136,-58.5555555555556,-38.6172839506173,-19.0987654320988,0,18.679012345679,36.9382716049383,54.7777777777778,72.1975308641975,89.1975308641975,105.777777777778,121.938271604938,137.679012345679,153,167.901234567901,182.382716049383,196.444444444444,210.086419753086,223.308641975309,236.111111111111,248.493827160494,260.456790123457,272,283.123456790123,293.827160493827,304.111111111111,313.975308641975,323.41975308642,332.444444444444,341.049382716049,349.234567901235,357,364.345679012346,371.271604938272,377.777777777778,383.864197530864,389.530864197531,394.777777777778,399.604938271605,404.012345679012,408,411.567901234568,414.716049382716,417.444444444444,419.753086419753,421.641975308642,423.111111111111,424.160493827161,424.79012345679,425,424.79012345679,424.16049382716,423.111111111111,421.641975308642,419.753086419753,417.444444444445,414.716049382716,411.567901234568,408,404.012345679012,399.604938271605,394.777777777778,389.530864197531,383.864197530864,377.777777777778,371.271604938272,364.345679012346,357,349.234567901235,341.049382716049,332.444444444445,323.41975308642,313.975308641975,304.111111111111,293.827160493827,283.123456790124,272,260.456790123457,248.493827160494,236.111111111111,223.308641975309,210.086419753086,196.444444444444,182.382716049383,167.901234567901,153,137.679012345679,121.938271604938,105.777777777778,89.1975308641975,72.1975308641975,54.7777777777778,36.9382716049383,18.6790123456789,0,-19.0987654320986,-38.617283950617,-58.5555555555556,-78.9135802469138,-99.6913580246914,-120.888888888889,-142.506172839506,-164.543209876543,-187,-209.876543209877],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[45],"y":[425],"mode":"markers","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="curebase-cancer-institute" class="section level4">
+<h4><span class="header-section-number">1.1.2.4</span> CureBase Cancer Institute</h4>
+<p><span class="math display">\[
+W = \left ( m^{x^{2}} \right )\left ( n^{-x} \right )\left ( z^7 \right )
+\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question what is the value of  x  at the maximum value of  W , given that  m=0.06 ,  n=0.14 ,  z=0.15 ?)</span>
+f &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="fl">0.06</span><span class="op">^</span>(x<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>(<span class="fl">0.14</span><span class="op">^</span>(<span class="op">-</span>x))<span class="op">*</span><span class="fl">0.15</span><span class="op">^</span><span class="dv">7</span>}
+result &lt;-<span class="st"> </span><span class="kw">optimize</span>(f,<span class="dt">interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">maximum =</span> T)
+<span class="kw">print</span>(result)</code></pre>
+<pre><code>## $maximum
+## [1] 0.3494179
+## 
+## $objective
+## [1] 2.408895e-06</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="fl">0.1</span>)
+data &lt;-<span class="st"> </span>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(x) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">mutate</span>(<span class="dt">y =</span> <span class="kw">f</span>(x))
+
+<span class="co">#Ploting with a marker on the optimal solution</span>
+<span class="kw">plot_ly</span>(data, <span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y, <span class="dt">type =</span> <span class="st">&#39;scatter&#39;</span>, <span class="dt">mode =</span> <span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">add_markers</span>(<span class="dt">y =</span> result<span class="op">$</span>objective, <span class="dt">x =</span> result<span class="op">$</span>maximum)</code></pre>
+<div id="htmlwidget-18bd5cceaa5732bef7cf" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18bd5cceaa5732bef7cf">{"x":{"visdat":{"705370abf8e":["function () ","plotlyVisDat"]},"cur_data":"705370abf8e","attrs":{"705370abf8e":{"x":{},"y":{},"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"705370abf8e.1":{"x":0.34941788850726,"y":2.40889540332597e-06,"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"x"},"yaxis":{"domain":[0,1],"automargin":true,"title":"y"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-1,-0.9,-0.8,-0.7,-0.6,-0.5,-0.4,-0.3,-0.2,-0.1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"y":[1.43521875e-08,2.9816492840403e-08,5.85541987052786e-08,1.08698249720678e-07,1.90743648268736e-07,3.16403037288569e-07,4.96128559417562e-07,7.3537834459633e-07,1.03036351155475e-06,1.36468723560612e-06,1.70859375e-06,2.02212278287273e-06,2.26224301671235e-06,2.39240122007236e-06,2.39161792177531e-06,2.26002169491835e-06,2.01881462437991e-06,1.70468170838915e-06,1.3606711764887e-06,1.02665870551934e-06,7.32254464285714e-07],"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.34941788850726],"y":[2.40889540332597e-06],"mode":"markers","type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="santas-molding-company" class="section level4">
+<h4><span class="header-section-number">1.1.2.5</span> Santa’s Molding Company</h4>
+<pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Type =</span> <span class="kw">c</span>(<span class="st">&quot;Profit&quot;</span>,<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Cubic Area&quot;</span>, <span class="st">&quot;index capacity&quot;</span>), <span class="dt">Toy =</span> <span class="kw">c</span>(<span class="dv">25</span>,<span class="dv">13</span>,<span class="dv">33</span>,<span class="dv">75</span>),
+                   <span class="dt">doll =</span> <span class="kw">c</span>(<span class="dv">25</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">70</span>), <span class="dt">Capacity =</span> <span class="kw">c</span>(<span class="ot">NA</span>,<span class="dv">1440</span>, <span class="dv">3000</span>, <span class="ot">NA</span>))
+
+<span class="kw">datatable</span>(data)</code></pre>
+<div id="htmlwidget-c96ee67a47240977c362" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c96ee67a47240977c362">{"x":{"filter":"none","data":[["1","2","3","4"],["Profit","Time","Cubic Area","index capacity"],[25,13,33,75],[25,15,25,70],[null,1440,3000,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Type<\/th>\n      <th>Toy<\/th>\n      <th>doll<\/th>\n      <th>Capacity<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>$$
+<span class="math display">\[\begin{align*}
+
+\textbf{Maximize} &amp; \ y = \sum_{i=1}^{N} p_i\cdot x_i \\
+\textbf{subject to}\\
+    &amp; x_i \le\ c_i  \ \ \forall i \in N \\
+    &amp; \sum_{i=1}^{N} t_{i} \cdot x_i \le\ 1440 \\
+    &amp; \sum_{i=1}^{N} a_{i} \cdot x_i \le\ 3000 \\
+    &amp; x_i \ge 0 \\
+    \\
+    
+\textbf{Where} \\
+
+&amp; i = \text{Products in N} \\
+&amp; p_i = \text{Profit margin for product i} \\
+&amp; c_i = \text{Product daily capacity} \\
+&amp; t_i = \text{Time to mold product i} \\
+&amp; a_i = \text{Cubic inches of product i} \\
+&amp; x_i = \text{Quantity of product i to mold} \\
+
+\end{align*}\]</span>
+$$</p>
+<p>If we look closer on the dataframe, we can set constraints 2 and 3 as one with a matrix including capacity constraints, but for math notation I’ve set them differently since they are 2 different types of entities.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)
+
+n =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of products Toy and doll</span>
+c =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">==</span><span class="st"> &quot;index capacity&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Toy,doll) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>() <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>value <span class="co">#index_capacity</span>
+a =<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">filter</span>(data, Type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Cubic Area&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Toy,doll)) <span class="co">#constraints left hand</span>
+C =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Cubic Area&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Capacity) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>Capacity <span class="co">#constraints right hand</span>
+p =<span class="st"> </span><span class="kw">filter</span>(data, Type <span class="op">==</span><span class="st"> &quot;Profit&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Toy,doll) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>() <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>value <span class="co">#profit</span>
+
+
+
+model &lt;-<span class="st"> </span><span class="kw">MIPModel</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Variable of profit</span>
+<span class="st">  </span><span class="kw">add_variable</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>, <span class="dt">lb =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># minimize travel distance</span>
+<span class="st">  </span><span class="kw">set_objective</span>(<span class="kw">sum_expr</span>(p[i]<span class="op">*</span>x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n), <span class="st">&quot;max&quot;</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># you cannot exceed the Plant Capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(x[i] <span class="op">&lt;=</span><span class="st"> </span>c[i], <span class="dt">i=</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co">#You cannot exceed aditivie capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[j,i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&lt;=</span><span class="st"> </span>C[j], <span class="dt">j =</span> <span class="dv">1</span><span class="op">:</span>n)
+
+
+model<span class="op">$</span>constraints</code></pre>
+<pre><code>## [[1]]
+## $lhs
+## expression(x[1L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(75)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[2]]
+## $lhs
+## expression(x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(70)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[3]]
+## $lhs
+## expression(c(Toy = 13) * x[1L] + c(doll = 15) * x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(1440)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[4]]
+## $lhs
+## expression(c(Toy = 33) * x[1L] + c(doll = 25) * x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(3000)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Solve</span>
+result &lt;-<span class="st"> </span><span class="kw">solve_model</span>(model, <span class="kw">with_ROI</span>(<span class="dt">solver =</span> <span class="st">&quot;glpk&quot;</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>))</code></pre>
+<pre><code>## &lt;SOLVER MSG&gt;  ----
+## GLPK Simplex Optimizer, v4.57
+## 4 rows, 2 columns, 6 non-zeros
+## *     0: obj =  -0.000000000e+00 inf =   0.000e+00 (2)
+## *     3: obj =   2.576470588e+03 inf =   0.000e+00 (0)
+## OPTIMAL LP SOLUTION FOUND
+## GLPK Integer Optimizer, v4.57
+## 4 rows, 2 columns, 6 non-zeros
+## 2 integer variables, none of which are binary
+## Integer optimization begins...
+## +     3: mip =     not found yet &lt;=              +inf        (1; 0)
+## Solution found by heuristic: 2575
+## +     3: mip =   2.575000000e+03 &lt;=     tree is empty   0.0% (0; 1)
+## INTEGER OPTIMAL SOLUTION FOUND
+## &lt;!SOLVER MSG&gt; ----</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Optimal Value</span>
+result<span class="op">$</span>objective_value</code></pre>
+<pre><code>## [1] 2575</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#result solution</span>
+result<span class="op">$</span>solution</code></pre>
+<pre><code>## x[1] x[2] 
+##   53   50</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Duals</span>
+<span class="kw">get_column_duals</span>(result)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>Let’s solve the questions</p>
+<pre class="sourceCode r"><code class="sourceCode r">P &lt;-<span class="st"> </span><span class="cf">function</span>(x,y){<span class="dv">25</span><span class="op">*</span>x<span class="op">+</span><span class="dv">25</span><span class="op">*</span>y}
+<span class="co">#Question 1: Graphical selection</span>
+<span class="co">#Question 2: What is the value of x = 70 and y= 30</span>
+<span class="kw">P</span>(<span class="dv">70</span>,<span class="dv">30</span>)</code></pre>
+<pre><code>## [1] 2500</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question 3: What is the value of x = 50 and y= 53</span>
+<span class="kw">P</span>(<span class="dv">50</span>,<span class="dv">53</span>)</code></pre>
+<pre><code>## [1] 2575</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Question 3: What is the value of x = 50 and y= 53</span>
+<span class="kw">P</span>(<span class="dv">20</span>,<span class="dv">75</span>)</code></pre>
+<pre><code>## [1] 2375</code></pre>
+</div>
+<div id="crazy-cereal" class="section level4">
+<h4><span class="header-section-number">1.1.2.6</span> Crazy Cereal</h4>
+<pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Type =</span> <span class="kw">c</span>(<span class="st">&quot;Sugary&quot;</span>,<span class="st">&quot;Regular&quot;</span>,<span class="st">&quot;Capacity&quot;</span>), <span class="dt">Sugar =</span> <span class="kw">c</span>(<span class="fl">0.66</span>,<span class="fl">0.21</span>,<span class="dv">2000</span>),
+                   <span class="dt">Corn_Flake =</span> <span class="kw">c</span>(<span class="fl">0.34</span>,<span class="fl">0.79</span>,<span class="dv">4000</span>), <span class="dt">Profit =</span> <span class="kw">c</span>(<span class="fl">0.94</span>,<span class="fl">0.82</span>,<span class="ot">NA</span>))
+<span class="kw">datatable</span>(data)</code></pre>
+<div id="htmlwidget-8b323b563811f5f94b13" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8b323b563811f5f94b13">{"x":{"filter":"none","data":[["1","2","3"],["Sugary","Regular","Capacity"],[0.66,0.21,2000],[0.34,0.79,4000],[0.94,0.82,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Type<\/th>\n      <th>Sugar<\/th>\n      <th>Corn_Flake<\/th>\n      <th>Profit<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>$$
+<span class="math display">\[\begin{align*}
+
+\textbf{Maximize} &amp; \ y = \sum_{i=1}^{N} p_i \cdot x_{i} \\
+\textbf{subject to}\\
+    &amp; \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le C_j, \ j \in M \\
+    &amp; x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    \\
+    
+\textbf{Where} \\
+
+&amp; i = \text{Products in N} \\
+&amp; j = \text{Components of N = M} \\
+&amp; p_i = \text{Profit margin for product i} \\
+&amp; a_{i,j} = \text{components for product i} \\
+&amp; C_j = \text{Component capacity} \\
+&amp; x_{i} = \text{Quantity of product} \\
+
+\end{align*}\]</span>
+$$</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)</code></pre>
+<pre><code>## Warning in rm(x): object &#39;x&#39; not found</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of products Sugary and Regular</span>
+m =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of components Sugar and Corn_Flake</span>
+
+<span class="co">#Let&#39;s do some roots R instead of dplyr :)</span>
+C =<span class="st"> </span><span class="kw">as.matrix</span>(data[data<span class="op">$</span>Type <span class="op">==</span><span class="st"> &quot;Capacity&quot;</span>,<span class="kw">c</span>(<span class="st">&quot;Sugar&quot;</span>, <span class="st">&quot;Corn_Flake&quot;</span>)])
+a =<span class="st"> </span><span class="kw">as.matrix</span>(data[data<span class="op">$</span>Type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sugary&quot;</span>,<span class="st">&quot;Regular&quot;</span>),<span class="kw">c</span>(<span class="st">&quot;Sugar&quot;</span>, <span class="st">&quot;Corn_Flake&quot;</span>)])
+p =<span class="st"> </span><span class="kw">as.matrix</span>(data<span class="op">$</span>Profit[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])
+
+
+model &lt;-<span class="st"> </span><span class="kw">MIPModel</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Variable of profit</span>
+<span class="st">  </span><span class="kw">add_variable</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>, <span class="dt">lb =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># maximize profit</span>
+<span class="st">  </span><span class="kw">set_objective</span>(<span class="kw">sum_expr</span>(p[i] <span class="op">*</span><span class="st"> </span>x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n), <span class="st">&quot;max&quot;</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co">#You cannot exceed component capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[i,j], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>m) <span class="op">&lt;=</span><span class="st"> </span>C[j], <span class="dt">j =</span> <span class="dv">1</span><span class="op">:</span>n)
+
+
+model<span class="op">$</span>constraints</code></pre>
+<pre><code>## [[1]]
+## $lhs
+## expression(c(Sugar = 0.66) * x[1L] + c(Sugar = 0.21) * x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(2000)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[2]]
+## $lhs
+## expression(c(Corn_Flake = 0.34) * x[1L] + c(Corn_Flake = 0.79) * 
+##     x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(4000)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Solve</span>
+result &lt;-<span class="st"> </span><span class="kw">solve_model</span>(model, <span class="kw">with_ROI</span>(<span class="dt">solver =</span> <span class="st">&quot;glpk&quot;</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>))</code></pre>
+<pre><code>## &lt;SOLVER MSG&gt;  ----
+## GLPK Simplex Optimizer, v4.57
+## 2 rows, 2 columns, 4 non-zeros
+## *     0: obj =  -0.000000000e+00 inf =   0.000e+00 (2)
+## *     2: obj =   5.117333333e+03 inf =   0.000e+00 (0)
+## OPTIMAL LP SOLUTION FOUND
+## GLPK Integer Optimizer, v4.57
+## 2 rows, 2 columns, 4 non-zeros
+## 2 integer variables, none of which are binary
+## Integer optimization begins...
+## +     2: mip =     not found yet &lt;=              +inf        (1; 0)
+## Solution found by heuristic: 5116.34
+## +     6: &gt;&gt;&gt;&gt;&gt;   5.116460000e+03 &lt;=   5.116460000e+03   0.0% (2; 1)
+## +     6: mip =   5.116460000e+03 &lt;=     tree is empty   0.0% (0; 5)
+## INTEGER OPTIMAL SOLUTION FOUND
+## &lt;!SOLVER MSG&gt; ----</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Optimal Value</span>
+result<span class="op">$</span>objective_value</code></pre>
+<pre><code>## [1] 5116.46</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#result solution</span>
+result<span class="op">$</span>solution</code></pre>
+<pre><code>## x[1] x[2] 
+## 1644 4355</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Duals</span>
+<span class="kw">get_column_duals</span>(result)</code></pre>
+<pre><code>## [1] NA</code></pre>
+</div>
+<div id="jims-meat-packing-company" class="section level4">
+<h4><span class="header-section-number">1.1.2.7</span> Jim’s Meat Packing Company</h4>
+<pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Cut =</span> <span class="kw">c</span>(<span class="st">&quot;Chuck&quot;</span>,<span class="st">&quot;Sirloin&quot;</span>,<span class="st">&quot;Restriction&quot;</span>), <span class="dt">Lean_Meat =</span> <span class="kw">c</span>(<span class="fl">0.09</span>,<span class="fl">0.6</span>,<span class="fl">0.3</span>),
+                   <span class="dt">Fat_Meat =</span> <span class="kw">c</span>(<span class="fl">0.02</span>,<span class="fl">0.06</span>,<span class="fl">0.05</span>), <span class="dt">Cost =</span> <span class="kw">c</span>(<span class="fl">9.3</span>,<span class="fl">8.4</span>,<span class="ot">NA</span>))
+<span class="kw">datatable</span>(data)</code></pre>
+<div id="htmlwidget-3300978c6c92ff4e2469" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3300978c6c92ff4e2469">{"x":{"filter":"none","data":[["1","2","3"],["Chuck","Sirloin","Restriction"],[0.09,0.6,0.3],[0.02,0.06,0.05],[9.3,8.4,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Cut<\/th>\n      <th>Lean_Meat<\/th>\n      <th>Fat_Meat<\/th>\n      <th>Cost<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>$$
+<span class="math display">\[\begin{align*}
+
+\textbf{Minimize} &amp; \ y = \sum_{i=1}^{N} c_i \cdot x_{i} \\
+\textbf{subject to}\\
+    &amp; \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=1 \\
+    &amp; \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le \sum_{i=1}^{N} R_j \cdot x_{i}, \ \ j \in N=2 \\
+    &amp; \sum_{i=1}^{N} x_{i} \ge 50 \\
+    &amp; x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+    \\
+    
+\textbf{Where} \\
+
+&amp; i = \text{Type of cut in N} \\
+&amp; j = \text{Type of meat} \\
+&amp; c_i = \text{Cost for product i} \\
+&amp; a_{i,j} = \text{components for product i} \\
+&amp; R_j = \text{Restriction capacity} \\
+&amp; x_{i} = \text{Quantity of product} \\
+
+\end{align*}\]</span>
+$$</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(x)</code></pre>
+<pre><code>## Warning in rm(x): object &#39;x&#39; not found</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">n =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of products Sugary and Regular</span>
+m =<span class="st"> </span><span class="dv">2</span> <span class="co">#Number of components Sugar and Corn_Flake</span>
+
+<span class="co">#Another way of subsetting data in R</span>
+R =<span class="st"> </span><span class="kw">as.matrix</span>(data[<span class="dv">3</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])
+a =<span class="st"> </span><span class="kw">as.matrix</span>(data[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])
+c =<span class="st"> </span><span class="kw">as.matrix</span>(data[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">4</span>])
+
+
+model &lt;-<span class="st"> </span><span class="kw">MIPModel</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Variable of profit</span>
+<span class="st">  </span><span class="kw">add_variable</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>, <span class="dt">lb =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># maximize profit</span>
+<span class="st">  </span><span class="kw">set_objective</span>(<span class="kw">sum_expr</span>(c[i] <span class="op">*</span><span class="st"> </span>x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n), <span class="st">&quot;min&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co">#yay</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&gt;=</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co">#You cannot exceed component capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[i,j], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&gt;=</span><span class="st"> </span><span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n)<span class="op">*</span>R[j], <span class="dt">j =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[i,j], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&lt;=</span><span class="st"> </span><span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n)<span class="op">*</span>R[j], <span class="dt">j =</span> <span class="dv">2</span>)
+
+
+model<span class="op">$</span>constraints</code></pre>
+<pre><code>## [[1]]
+## $lhs
+## expression(x[1L] + x[2L])
+## 
+## $sense
+## [1] &quot;&gt;=&quot;
+## 
+## $rhs
+## expression(50)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[2]]
+## $lhs
+## expression(c(Lean_Meat = 0.09) * x[1L] + c(Lean_Meat = 0.6) * 
+##     x[2L])
+## 
+## $sense
+## [1] &quot;&gt;=&quot;
+## 
+## $rhs
+## expression(0.3 * x[1L] + 0.3 * x[2L])
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;
+## 
+## [[3]]
+## $lhs
+## expression(c(Fat_Meat = 0.02) * x[1L] + c(Fat_Meat = 0.06) * 
+##     x[2L])
+## 
+## $sense
+## [1] &quot;&lt;=&quot;
+## 
+## $rhs
+## expression(0.05 * x[1L] + 0.05 * x[2L])
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;model_constraint&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Solve</span>
+result &lt;-<span class="st"> </span><span class="kw">solve_model</span>(model, <span class="kw">with_ROI</span>(<span class="dt">solver =</span> <span class="st">&quot;glpk&quot;</span>, <span class="dt">verbose =</span> <span class="ot">TRUE</span>))</code></pre>
+<pre><code>## &lt;SOLVER MSG&gt;  ----
+## GLPK Simplex Optimizer, v4.57
+## 3 rows, 2 columns, 6 non-zeros
+##       0: obj =   0.000000000e+00 inf =   5.000e+01 (1)
+##       2: obj =   4.464705882e+02 inf =   0.000e+00 (0)
+## *     3: obj =   4.312500000e+02 inf =   0.000e+00 (0)
+## OPTIMAL LP SOLUTION FOUND
+## GLPK Integer Optimizer, v4.57
+## 3 rows, 2 columns, 6 non-zeros
+## 2 integer variables, none of which are binary
+## Integer optimization begins...
+## +     3: mip =     not found yet &gt;=              -inf        (1; 0)
+## +     4: &gt;&gt;&gt;&gt;&gt;   4.317000000e+02 &gt;=   4.317000000e+02   0.0% (1; 0)
+## +     4: mip =   4.317000000e+02 &gt;=     tree is empty   0.0% (0; 1)
+## INTEGER OPTIMAL SOLUTION FOUND
+## &lt;!SOLVER MSG&gt; ----</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Optimal Value</span>
+result<span class="op">$</span>objective_value</code></pre>
+<pre><code>## [1] 431.7</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#result solution</span>
+result<span class="op">$</span>solution</code></pre>
+<pre><code>## x[1] x[2] 
+##   13   37</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Duals</span>
+<span class="kw">get_column_duals</span>(result)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>I couldn’t find a proper function on shadow price calculation on ompr package, so lets try to calculate it ourselves!</p>
+<pre class="sourceCode r"><code class="sourceCode r">ModelIter &lt;-<span class="st"> </span><span class="cf">function</span>(z){
+  
+  model &lt;-<span class="st"> </span><span class="kw">MIPModel</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># Variable of profit</span>
+<span class="st">  </span><span class="kw">add_variable</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n, <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>, <span class="dt">lb =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co"># maximize profit</span>
+<span class="st">  </span><span class="kw">set_objective</span>(<span class="kw">sum_expr</span>(c[i] <span class="op">*</span><span class="st"> </span>x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n), <span class="st">&quot;min&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co">#yay</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&gt;=</span><span class="st"> </span>z) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="co">#You cannot exceed component capacity</span>
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[i,j], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&gt;=</span><span class="st"> </span><span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n)<span class="op">*</span>R[j], <span class="dt">j =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
+
+<span class="st">  </span><span class="kw">add_constraint</span>(<span class="kw">sum_expr</span>(x[i] <span class="op">*</span><span class="st"> </span>a[i,j], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n) <span class="op">&lt;=</span><span class="st"> </span><span class="kw">sum_expr</span>(x[i], <span class="dt">i =</span> <span class="dv">1</span><span class="op">:</span>n)<span class="op">*</span>R[j], <span class="dt">j =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span>
+<span class="st">  </span><span class="kw">solve_model</span>(<span class="kw">with_ROI</span>(<span class="dt">solver =</span> <span class="st">&quot;glpk&quot;</span>, <span class="dt">verbose =</span> F))
+  
+  <span class="kw">return</span>(model<span class="op">$</span>objective_value)
+  
+}
+
+Iter_Results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">constraint =</span> <span class="kw">seq</span>(<span class="dv">48</span>,<span class="dv">55</span>,<span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">                </span><span class="kw">mutate</span>(<span class="dt">Obj_value =</span> <span class="kw">as.numeric</span>(<span class="kw">map</span>(constraint, ModelIter)),
+                       <span class="dt">Marginal_value =</span> <span class="kw">round</span>((Obj_value<span class="op">-</span><span class="kw">lag</span>(Obj_value,<span class="dv">1</span>)<span class="op">/</span>(constraint<span class="op">-</span><span class="kw">lag</span>(constraint,<span class="dv">1</span>))),<span class="dv">2</span>))
+<span class="kw">datatable</span>(Iter_Results)</code></pre>
+<div id="htmlwidget-a5f3d83b21c48d05f211" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a5f3d83b21c48d05f211">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8"],[48,49,50,51,52,53,54,55],[414,423.3,431.7,440.1,448.5,457.8,466.2,474.6],[null,9.3,8.4,8.4,8.4,9.3,8.4,8.4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>constraint<\/th>\n      <th>Obj_value<\/th>\n      <th>Marginal_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(Iter_Results<span class="op">$</span>Marginal_value[<span class="dv">2</span><span class="op">:</span><span class="kw">length</span>(Iter_Results)])</code></pre>
+<pre><code>## [1] 8.85</code></pre>
+<p>Marginal Value set as 8.85 got us an error, the answer was 8.63, would be good to understand what was made wrong in here.</p>
+</div>
+<div id="johns-shipping-company" class="section level4">
+<h4><span class="header-section-number">1.1.2.8</span> John’s Shipping Company</h4>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsubsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
