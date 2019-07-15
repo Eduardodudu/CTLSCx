@@ -1,17 +1,3 @@
---- 
-title: "A CTLSCx Exercises in R"
-author: "Eduardo Almeida"
-date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
-documentclass: book
-bibliography: [book.bib]
-biblio-style: apalike
-link-citations: yes
-github-repo: Eduardodudu/CTLSCx
-url: 'https://github.com/Eduardodudu/CTLSCx'
-description: "Trying to learn NERD Network design ?"
----
-
 # CTLSC0x - Supply Chain Analytics
 
 ```{r include=FALSE}
@@ -24,6 +10,7 @@ library(plotly)
 library(tibble)
 library(DT)
 library(tidyverse)
+library(knitr)
 ```
 
 
@@ -140,8 +127,11 @@ model <- MIPModel() %>%
   #You cannot exceed aditivie capacity
   add_constraint(sum_expr(x[i] * a[j,i], i = 1:n) <= A[j], j = 1:n)
 
-
+#How to check for the constraints
 model$constraints
+
+#How to check for the Objective
+model$objective 
 
 #Solve
 result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
@@ -153,7 +143,7 @@ result$objective_value
 result$solution
 
 #Duals
-get_column_duals(result)
+#get_column_duals(result) Not working
 
 ```
 
@@ -213,9 +203,9 @@ print(result)
 
 $$
 \begin{align*}
-\textbf{Minimize} & \ Z = x*y \\
-\textbf{st.} \\
-& 2*x+2*y = 26.7
+\textbf{Minimize} & \ Z = x \cdot y \\
+\textbf{Subject to} \\
+& 2 \cdot x+2 \cdot y = 26.7
 \end{align*}
 $$
 
@@ -319,8 +309,9 @@ plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
 
 ```{r}
 
-data <- tibble(Type = c("Profit","Time","Cubic Area", "index capacity"), Toy = c(25,13,33,75),
-                   doll = c(25,15,25,70), Capacity = c(NA,1440, 3000, NA))
+data <- tibble(Type = c("Profit","Time","Cubic Area", "index capacity"),
+               Toy = c(25,13,33,75), doll = c(25,15,25,70),
+               Capacity = c(NA,1440, 3000, NA))
 
 datatable(data)
 
@@ -377,20 +368,14 @@ model <- MIPModel() %>%
   #You cannot exceed aditivie capacity
   add_constraint(sum_expr(x[i] * a[j,i], i = 1:n) <= C[j], j = 1:n)
 
-
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = FALSE))
 
 #Optimal Value
 result$objective_value
 
 #result solution
 result$solution
-
-#Duals
-get_column_duals(result)
 
 ```
 
@@ -467,21 +452,14 @@ model <- MIPModel() %>%
   #You cannot exceed component capacity
   add_constraint(sum_expr(x[i] * a[i,j], i = 1:m) <= C[j], j = 1:n)
 
-
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = FALSE))
 
 #Optimal Value
 result$objective_value
 
 #result solution
 result$solution
-
-#Duals
-get_column_duals(result)
-
 
 ```
 
@@ -551,10 +529,8 @@ model <- MIPModel() %>%
   add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) <= sum_expr(x[i], i = 1:n)*R[j], j = 2)
 
 
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
 
 #Optimal Value
 result$objective_value
@@ -599,9 +575,9 @@ ModelIter <- function(z){
 Iter_Results <- tibble(constraint = seq(48,55,1)) %>%
                 mutate(Obj_value = as.numeric(map(constraint, ModelIter)),
                        Marginal_value = round((Obj_value-lag(Obj_value,1)/(constraint-lag(constraint,1))),2))
-datatable(Iter_Results)
 
-mean(Iter_Results$Marginal_value[2:length(Iter_Results)])
+datatable(Iter_Results)
+mean(Iter_Results$Marginal_value[2:length(Iter_Results)]) #Didn't work
 
 ```
 
@@ -675,20 +651,14 @@ model <- MIPModel() %>%
    #You cannot exceed component capacity
   add_constraint(sum_expr(x[i] * a[i,j], i = 1:n) <= sum_expr(x[i], i = 1:n)*R[j], j = 2)
 
-
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
 
 #Optimal Value
 result$objective_value
 
 #result solution
 result$solution
-
-#Duals
-get_column_duals(result)
 
 
 ```
@@ -698,8 +668,10 @@ get_column_duals(result)
 
 ```{r}
 
-data <- tibble(Type = c("Product_1","Product_2","Product_3", "Min", "Max"), Nitrogen  = c(360,380,310,1800,2200),
-                   Potassium = c(30,20,20,100,100), cost = c(1.59,2.19,2.99,NA,NA))
+data <- tibble(Type = c("Product_1","Product_2","Product_3", "Min", "Max"),
+               Nitrogen  = c(360,380,310,1800,2200), Potassium = c(30,20,20,100,100),
+               cost = c(1.59,2.19,2.99,NA,NA))
+
 datatable(data)
 
 ```
@@ -756,20 +728,14 @@ model <- MIPModel() %>%
   #Dont exceed maximum required
   add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j], j = 1:m)
 
-
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
 
 #Optimal Value
 result$objective_value
 
 #result solution
 result$solution
-
-#Duals
-get_column_duals(result)
 
 
 #Question: How many mg of Nitrogen would your solution provide to the plant every day? (Please round your answer to integer number)
@@ -785,6 +751,7 @@ result$solution[1]*a[1,1]+result$solution[2]*a[2,1]
 data <- tibble(Type = c("P_Cyan","P_Magenta","P_Yellow","Max"),
                Stage1  = c(0.44,0.51,0.5,17*60^2), Stage2 = c(0.55,0.6,0.59,23*60^2),
                Demand = c(84000,72000,93000,NA), Profit = c(0.6,0.72,0.62,NA))
+
 
 datatable(data)
 ```
@@ -842,11 +809,8 @@ model <- MIPModel() %>%
   #Dont exceed maximum required
   add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j], j = 1:m)
 
-
-model$constraints
-
 #Solve
-result <- solve_model(model, with_ROI(solver = "glpk", verbose = TRUE))
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
 
 #Optimal Value
 result$objective_value
@@ -859,4 +823,787 @@ result$solution
 #### Pasteur Cheese Factory
 
 
+```{r}
 
+data <- tibble(Type = c("P_Original","P_Cheddar","P_Wasabi","Max","Cost"),
+               X_Ray  = c(8.6,2.2,5.1,8*60,0.11), Checkweigher = c(7.0,6.8,9.8,9*60,0.22),
+               Profit = c(20,15,17,NA,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i=1}^{N} x_{i} \cdot \left( p_i - \sum_{j=1}^{M} c_{i,j} \right) \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le Max_j, \ \ j \in M \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of product in N} \\
+& j = \text{Production stage in M} \\
+& p_i = \text{Profit for product i} \\
+& c_{i,j} = \text{Cost for product i in stage j} \\
+& a_{i,j} = \text{Time requirement for product i in stage j} \\
+& Max_j = \text{Restriction of production time} \\
+& D_i = \text{Demand for product} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+In this exercise, you're willing to maximize profit given the cost of production.
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+c = as.vector(data[5,2:3]) #This cost will be changed
+max = as.matrix(data[4,2:3])
+a = as.matrix(data[1:3,2:3])
+p = as.matrix(data[1:3,4])
+
+#Multiply all rows of j column of a[i,j] to c[i], in r for this to happen you have to change the vector to a square matrix
+datatable(diag(c))
+c = a %*% diag(c)
+#It becomes:
+datatable(c)
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of productW
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*(p[i] - sum_expr(c[i,j],j = 1:m)), i = 1:n), "max") %>%
+
+  #Dont exceed maximum required
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j], j = 1:m)
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+## Week3 - IPs, MILPs & Network Design
+
+### Lesson 1 - IPs & MILPs
+
+#### Banner Chemicals ll
+
+
+Question Info:assuming you can only produce in lots of 10 barrels.
+
+```{r}
+
+data <- tibble(Type = c("high","Supreme","Max"),
+               Additive_1  = c(3,2,300), Additive_2 = c(1,3,280),
+               Profit = c(80,200,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Maximize} & \ y = \sum_{i=1}^{N} \frac{x_{i} \cdot p_{i}}{Q} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \le \frac{P_i}{Q} \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \le \frac{Max_j}{Q}, \ \ j \in M \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of product in N} \\
+& j = \text{Product component in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Product requirement for stage j} \\
+& P_i = \text{Capacity for Plant} \\
+& Max_j = \text{Capacity for components} \\
+& Q = \text{Lot} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+
+```{r}
+rm(x)
+
+n = 2 #Number of products
+m = 2 #Number of components
+P = 110 #Plant Capacity
+
+#subsetting data to R
+max = as.matrix(data[3,2:3])
+a = as.matrix(data[1:2,2:3])
+p = as.matrix(data[1:2,4])
+
+Model <- function(Q){
+
+model <- MIPModel() %>%
+  # Variable of profit
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr((p[i] * x[i])/Q, i = 1:n), "max") %>%
+  
+  #Don't produce something you don't have demand for
+  add_constraint(sum_expr(x[i], i = 1:n) <= P/Q) %>%
+  
+  #Dont exceed maximum required
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= max[j]/Q, j = 1:m)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = F))
+
+return(list(Objective = result$objective_value*Q^2,
+            Variables = result$solution*Q))
+}
+
+#Question 1: Result when Lot = 10
+
+Model(10)
+
+#Question 2: Result when Lot = 5
+
+Model(5)
+```
+
+#### GOnuts
+
+```{r}
+
+data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
+               Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
+               Capacity = c(425,400,750,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ y = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i,j} \cdot x_{i,j} \\
+\textbf{subject to}\\
+    & \sum_{i=1}^{N} x_{i} \le C_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge D_i, \ \ j \in M \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of product in N} \\
+& j = \text{Product component in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Product requirement for stage j} \\
+& P_i = \text{Capacity for Plant} \\
+
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*} 
+$$
+
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+D = as.matrix(data[4,2:3])
+a = as.matrix(data[1:3,2:3])
+C = as.matrix(data[1:3,4])
+
+#Modeling for Lesson and question, z is for the exercise, by changing the capacity of plant's constraint
+
+Model <- function(z = NA){
+  
+  if (is.na(z)) {
+   z = C
+  } else {
+   z = as.matrix(replicate(n = n, z))
+  }
+  
+  #Get back to model
+  model <- MIPModel() %>%
+  # Variable of productW
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*a[i,j] ,j = 1:m, i = 1:n), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= z[i], i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = FALSE))
+  
+return(list(Obj_value = result$objective_value,
+            Solution = result$solution))
+  
+}
+
+#Question 1: Using the capacity of the lesson
+Model()
+
+#Question 2: All plants capacity are 350
+Model(350)
+
+```
+
+
+
+
+#### QQ4 - Two Simple ILPs
+
+##### Part l
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Maximize", "C_1","C_2"),
+               Var_1 = c(3,5,5), Var_2  = c(4,-3,10), RH = c(NA,8,63))
+
+datatable(data)
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 2 #Number of Variables & constraints
+
+#subsetting data to R
+a <- as.matrix(data[1,2:3])
+c <- as.matrix(data[2:3,2:3])
+RH <- as.matrix(data[2:3,4])
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[i,j], j = 1:n) <= RH[i], i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+##### Part 2
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Maximize", "C_1","C_2","C_3"),
+               Var_1 = c(2,-2,2,-2), Var_2  = c(3,1,0,2),
+               State = c(NA,"<=","<=",">="), RH = c(NA,4,4,-2))
+
+datatable(data)
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 2 #Number of Variables & constraints
+
+
+#subsetting data to R
+a <- as.matrix(data[1,2:3])
+c <- as.matrix(data[2:4,2:3])
+RH <- as.matrix(data[2:4,5])
+
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[j,i], i = 1:n) <= RH[j], j = 1:n) %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[j,i], i = 1:n) >= RH[j], j = 3)
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+
+
+
+#### GOnuts ll
+
+```{r}
+
+data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
+               Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
+               Capacity = c(425,400,750,NA), Plant_Cost = c(1500,2000,3000,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i,j} \cdot x_{i,j} +
+                          \sum_{j=1}^{M} f_j \cdot y_j \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} x_{i} \le C_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i} \cdot a_{i,j} \ge D_i, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} -  f_j \cdot B_M \le 0\\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Demand in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Product requirement for stage j} \\
+& P_j = \text{Capacity for Plant} \\
+& B_M = \text{Big number}\\
+& Max_j = \text{Capacity for components} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*}
+$$
+
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+D = as.matrix(data[4,2:3])
+a = as.matrix(data[1:3,2:3])
+C = as.matrix(data[1:3,4])
+Pc = as.matrix(data[1:3,5])
+B = sum(D) 
+
+Model <- function(z = NA){
+  
+  if (is.na(z)) {
+   z = C
+  } else {
+   z = as.matrix(replicate(n = n, z))
+  }
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+  
+  #Binary Variable
+  add_variable(f[i], i = 1:n, type = "binary") %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*a[i,j] ,j = 1:m, i = 1:n) +
+                sum_expr(f[i]*Pc[i], i = 1:n), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= z[i], i = 1:n) %>%
+  
+  #
+  add_constraint(sum_expr(x[i,j], j = 1:m) - f[i]* B <= 0, i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = FALSE))
+
+return(list(Obj_value = result$objective_value,
+            Solution = result$solution))
+
+}
+
+#Question 1: Using the capacity of the lesson
+Model()
+
+#Question 2: All plants capacity are 450
+Model(450)
+
+```
+
+
+
+
+#### GOnuts lll
+
+
+```{r}
+
+data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
+               Plant_Cost = c(1500,2000,3000,NA),
+               Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
+               Min_Cap = c(100,250,600,NA), Max_Cap = c(425,400,750,NA))
+
+datatable(data)
+```
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i,j} \cdot x_{i,j} +
+                          \sum_{j=1}^{M} f_j \cdot y_j \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} x_{i,j} \le C_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} \ge L_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} \cdot a_{i,j} \ge D_i, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} -  f_j \cdot B_M \le 0\\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Demand in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Product requirement for stage j} \\
+& P_j = \text{Capacity for Plant} \\
+& B_M = \text{Big number}\\
+& Max_j = \text{Capacity for components} \\
+& x_{i} = \text{Quantity of product} \\
+
+\end{align*}
+$$
+
+
+```{r, warning= F}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+
+#subsetting data to R
+D = as.matrix(data[4,3:4])
+a = as.matrix(data[1:3,3:4])
+L = as.matrix(data[1:3,5])
+C = as.matrix(data[1:3,6])
+Pc = as.matrix(data[1:3,2])
+B = sum(D)
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+  
+  #Binary Variable
+  add_variable(f[i], i = 1:n, type = "binary") %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*a[i,j] ,j = 1:m, i = 1:n) +
+                sum_expr(f[i]*Pc[i], i = 1:n), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= C[i], i = 1:n) %>%
+  
+  #
+  add_constraint(sum_expr(x[i,j], j = 1:m) >= L[i]*f[i], i = 1:n) %>%
+  
+  #
+  add_constraint(sum_expr(x[i,j], j = 1:m) - f[i]* B <= 0, i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+#### GOnuts lV
+
+
+Operate with 2 Plants at maximum constraint.
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i,j} \cdot x_{i,j} +
+                          \sum_{j=1}^{M} f_j \cdot y_j \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} x_{i,j} \le C_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} \ge L_j, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} \cdot a_{i,j} \ge D_i, \ \ j \in M \\
+    & \sum_{i=1}^{N} x_{i,j} -  f_j \cdot B_M \le 0\\
+    & \sum_{j=1}^{M} f_j \le K \\
+    & x_{i} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Demand in M} \\
+& p_i = \text{Profit for product i} \\
+& a_{i,j} = \text{Product requirement for stage j} \\
+& P_j = \text{Capacity for Plant} \\
+& B_M = \text{Big number}\\
+& Max_j = \text{Capacity for components} \\
+& x_{i} = \text{Quantity of product} \\
+& K = \text{Maximum of Plants to be open} \\
+
+\end{align*}
+$$
+
+
+```{r}
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components
+K = 2
+
+#subsetting data to R
+D = as.matrix(data[4,3:4])
+a = as.matrix(data[1:3,3:4])
+L = as.matrix(data[1:3,5])
+C = as.matrix(data[1:3,6])
+Pc = as.matrix(data[1:3,2])
+B = sum(D)
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+  
+  #Binary Variable
+  add_variable(f[i], i = 1:n, type = "binary") %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*a[i,j] ,j = 1:m, i = 1:n) +
+                sum_expr(f[i]*Pc[i], i = 1:n), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= C[i], i = 1:n) %>%
+  
+  #TODO
+  add_constraint(sum_expr(f[j], j = 1:m) <= K) %>%
+  
+  #TODO
+  add_constraint(sum_expr(x[i,j], j = 1:m) >= L[i]*f[i], i = 1:n) %>%
+  
+  #TODO
+  add_constraint(sum_expr(x[i,j], j = 1:m) - f[i]* B <= 0, i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+### Lesson 2 - Networks & NLP
+
+#### Recitations
+
+##### Integer Linear Programming
+
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Maximize", "C_1","C_2","C_3"),
+               Var_1 = c(8,1,3,1), Var_2  = c(20,1,2,3), RH = c(NA,11,30,28))
+
+datatable(data)
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 2 #Number of Variables
+m = 3 #Number of constraints
+
+#subsetting data to R
+a <- as.matrix(data[1,2:3])
+c <- as.matrix(data[2:4,2:3])
+RH <- as.matrix(data[2:4,4])
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[j,i], i = 1:n) <= RH[j], j = 1:m)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+##### Capital Budgeting Problem
+
+
+```{r, warning = F}
+
+data <- tibble(Project = c("P1","P2","P3","P4","P5","Funds"),
+               Exp_1 = c(5,4,3,7,8,25), Exp_2 = c(1,7,9,4,6,25),
+               Exp_3 = c(8,10,2,1,10,25), Returns = c(20,40,20,15,30,NA))
+
+datatable(data)
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 5 #Number of Projects
+m = 3 #Number of Years
+
+#subsetting data to R
+a <- as.matrix(data[1:5,5])
+c <- as.matrix(data[1:5,2:4])
+RH <- as.matrix(data[6,2:4])
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "binary", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[i,j], i = 1:n) <= RH[j], j = 1:m)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+##### Fixed Charge Problem
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Shirts","Short","Pants","RH"),
+               Labor = c(3,2,6,150), Cloth = c(4,3,4,160),
+               Sales = c(12,8,15,NA), Fix_Cost = c(200,150,100,NA),
+               Var_Cost = c(6,4,8,NA))
+
+datatable(data)
+```
+
+```{r, warning= F}
+rm(x)
+
+n = 3 #Number of Products
+
+#subsetting data to R
+a <- as.matrix(data[1:3,2:3])
+RH <- as.matrix(data[4,2:3])
+p <- as.matrix(data[1:3,4])
+c <- as.matrix(data[1:3,5:6])
+M <- 1000
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+  
+  # Variable of fixed cost
+  add_variable(y[i], i = 1:n, type = "binary", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*(p[i]-c[i,2]) - y[i]*c[i,1], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= RH[j], j = 1:n) %>%
+  
+  #Flow Constraint
+  add_constraint(sum_expr(x[i], i = 1:n) <= y[i]*M, i = 1:n)
+  
+
+model$constraints
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
