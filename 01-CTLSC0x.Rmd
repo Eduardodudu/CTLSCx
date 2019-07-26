@@ -11,6 +11,12 @@ library(tibble)
 library(DT)
 library(tidyverse)
 library(knitr)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(igraph)
+options(knitr.kable.NA = '')
+options(scipen=999)
 ```
 
 
@@ -28,7 +34,7 @@ $$
 
 Since is an unconstrained quadratic optimization with a single variable, base R package optimizer can solve it
 
-```{r}
+```{r, warnings = FALSE}
 f <- function(x){x^2+2*x-3}
 result <- optimize(f,interval = c(-10,10), maximum = F)
 print(result)
@@ -37,7 +43,7 @@ print(result)
 
 Let's check the result in the plot
 
-```{r}
+```{r, warnings = FALSE}
 #Data created for plot, using mutate on the function
 x <- seq(-10,10,1)
 data <- data <- data.frame(x) %>%
@@ -58,7 +64,7 @@ $$
 In this equation there is 2 variables, for this case it can be used the base R package optim.
 
 
-```{r}
+```{r, warnings = FALSE}
 f <- function(x,y){-x[1]^2+2*x[1]-x[2]^2}
 result <- optim(c(1, 1), f)
 print(result)
@@ -70,12 +76,12 @@ print(result)
 
 ##### Banner Chemicals
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("Profit","Plant","Additive A", "Additive B"), High = c(80,1,3,1),
                    Supreme = c(200,1,2,3), Capacity = c(NA,110, 300, 280))
 
-datatable(data)
+kable(data, caption = "Banner Chemicals")
 
 ```
 
@@ -104,7 +110,7 @@ $$
 \end{align*} 
 $$
 
-```{r, warning=FALSE}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of products High and Supreme
@@ -156,7 +162,7 @@ $$
 P = (x/73)^2-(x/95)+0.92
 $$
 
-```{r}
+```{r, warnings = FALSE}
 P <- function(x){(x/73)^2-(x/95)+0.92}
 
 #Data created for plot, using mutate on the function
@@ -175,7 +181,7 @@ plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
 
 
 
-```{r}
+```{r, warnings = FALSE}
 #Part 1: Price Functio
 
 #Question1: How much will it charge with 5 basket's order ?
@@ -209,9 +215,6 @@ $$
 \end{align*}
 $$
 
-
-Simplifying $2*x+2*y = 26.7$ as $y = (26.7 - 2*x)/2$ is possible to change the optimization problem to a single variable:
-
 $$
 \begin{align*}
 \textbf{Minimize} & \ Z\ =x\cdot\ \left(\frac{\left(26.7-2\cdot x\right)}{2}\right)\\
@@ -221,7 +224,7 @@ $$
 
 Solving:
 
-```{r}
+```{r, warnings = FALSE}
 f <- function(x){x*((26.7 - 2*x)/2)}
 result <- optimize(f,interval = c(-100,100), maximum = T)
 print(result)
@@ -231,7 +234,7 @@ print(result)
 
 Let's check the result in the plot
 
-```{r}
+```{r, warnings = FALSE}
 #Data created for plot, using mutate on the function
 x <- seq(-100,100,0.1)
 data <- data <- data.frame(x) %>%
@@ -252,7 +255,7 @@ $$
 
 
 
-```{r}
+```{r, warnings = FALSE}
 f <- function(x){1700*(x/90-(x/90)^2)}
 
 #Question1: First derivative
@@ -284,7 +287,7 @@ W = \left ( m^{x^{2}} \right )\left ( n^{-x} \right )\left ( z^7 \right )
 $$
 
 
-```{r}
+```{r, warnings = FALSE}
 #Question what is the value of  x  at the maximum value of  W , given that  m=0.06 ,  n=0.14 ,  z=0.15 ?)
 f <- function(x){0.06^(x^2)*(0.14^(-x))*0.15^7}
 result <- optimize(f,interval = c(-1,1), maximum = T)
@@ -293,7 +296,7 @@ print(result)
 
 
 
-```{r}
+```{r, warnings = FALSE}
 x <- seq(-1,1,0.1)
 data <- data <- data.frame(x) %>%
         mutate(y = f(x))
@@ -307,13 +310,13 @@ plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
 #### Santa’s Molding Company
 
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("Profit","Time","Cubic Area", "index capacity"),
                Toy = c(25,13,33,75), doll = c(25,15,25,70),
                Capacity = c(NA,1440, 3000, NA))
 
-datatable(data)
+kable(data, caption = "Santa’s Molding Company")
 
 ```
 
@@ -344,7 +347,7 @@ $$
 If we look closer on the dataframe, we can set constraints 2 and 3 as one with a matrix including capacity constraints, but for math notation I've set them differently since they are 2 different types of entities.
 
 
-```{r}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of products Toy and doll
@@ -382,7 +385,7 @@ result$solution
 
 Let's solve the questions
 
-```{r}
+```{r, warnings = FALSE}
 P <- function(x,y){25*x+25*y}
 #Question 1: Graphical selection
 #Question 2: What is the value of x = 70 and y= 30
@@ -398,11 +401,12 @@ P(20,75)
 
 #### Crazy Cereal
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("Sugary","Regular","Capacity"), Sugar = c(0.66,0.21,2000),
                    Corn_Flake = c(0.34,0.79,4000), Profit = c(0.94,0.82,NA))
-datatable(data)
+
+kable(data, caption = "Crazy Cereal")
 
 ```
 
@@ -430,7 +434,7 @@ $$
 
 
 
-```{r}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of products Sugary and Regular
@@ -465,11 +469,12 @@ result$solution
 
 #### Jim's Meat Packing Company
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Cut = c("Chuck","Sirloin","Restriction"), Lean_Meat = c(0.09,0.6,0.3),
                    Fat_Meat = c(0.02,0.06,0.05), Cost = c(9.3,8.4,NA))
-datatable(data)
+
+kable(data, caption = "Jim's Meat")
 
 ```
 
@@ -500,7 +505,7 @@ $$
 
 
 
-```{r}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of products Sugary and Regular
@@ -547,7 +552,7 @@ get_column_duals(result)
 
 I couldn't find a proper function on shadow price calculation on ompr package, so lets try to calculate it ourselves!
 
-```{r}
+```{r, warnings = FALSE}
 
 ModelIter <- function(z){
   
@@ -576,7 +581,8 @@ Iter_Results <- tibble(constraint = seq(48,55,1)) %>%
                 mutate(Obj_value = as.numeric(map(constraint, ModelIter)),
                        Marginal_value = round((Obj_value-lag(Obj_value,1)/(constraint-lag(constraint,1))),2))
 
-datatable(Iter_Results)
+kable(Iter_Results, caption = "Result")
+
 mean(Iter_Results$Marginal_value[2:length(Iter_Results)]) #Didn't work
 
 ```
@@ -586,11 +592,12 @@ Marginal Value set as 8.85 got us an error, the answer was 8.63, would be good t
 
 #### John's Shipping Company
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Fuel_Type = c("O_Type","D_Type","Restriction"), Hydrogen_Conc = c(45,90,60),
                    Oxygen_Conc = c(15,6,9), Cost = c(1.05,1.34,NA))
-datatable(data)
+
+kable(data, caption = "John's Shipping Company")
 
 ```
 
@@ -622,7 +629,7 @@ $$
 
 
 
-```{r}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of products Sugary and Regular
@@ -666,13 +673,13 @@ result$solution
 
 #### A New Office Plant
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("Product_1","Product_2","Product_3", "Min", "Max"),
                Nitrogen  = c(360,380,310,1800,2200), Potassium = c(30,20,20,100,100),
                cost = c(1.59,2.19,2.99,NA,NA))
 
-datatable(data)
+kable(data, caption = "A New Office Plant")
 
 ```
 
@@ -702,7 +709,7 @@ $$
 
 
 
-```{r}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 3 #Number of products
@@ -746,14 +753,14 @@ result$solution[1]*a[1,1]+result$solution[2]*a[2,1]
 
 #### Rochak's Ink Company
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("P_Cyan","P_Magenta","P_Yellow","Max"),
                Stage1  = c(0.44,0.51,0.5,17*60^2), Stage2 = c(0.55,0.6,0.59,23*60^2),
                Demand = c(84000,72000,93000,NA), Profit = c(0.6,0.72,0.62,NA))
 
+kable(data, caption = "Rochak's Ink Company")
 
-datatable(data)
 ```
 
 
@@ -783,7 +790,8 @@ In this exercise, you're willing to maximize profit given the demand. You don't 
 
 
 
-```{r}
+```{r, warnings = FALSE}
+
 rm(x)
 
 n = 3 #Number of products
@@ -823,13 +831,14 @@ result$solution
 #### Pasteur Cheese Factory
 
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("P_Original","P_Cheddar","P_Wasabi","Max","Cost"),
                X_Ray  = c(8.6,2.2,5.1,8*60,0.11), Checkweigher = c(7.0,6.8,9.8,9*60,0.22),
                Profit = c(20,15,17,NA,NA))
 
-datatable(data)
+kable(data, caption = "Pasteur Cheese Factory")
+
 ```
 
 
@@ -857,7 +866,8 @@ $$
 
 In this exercise, you're willing to maximize profit given the cost of production.
 
-```{r}
+```{r, warnings = FALSE}
+
 rm(x)
 
 n = 3 #Number of products
@@ -870,10 +880,10 @@ a = as.matrix(data[1:3,2:3])
 p = as.matrix(data[1:3,4])
 
 #Multiply all rows of j column of a[i,j] to c[i], in r for this to happen you have to change the vector to a square matrix
-datatable(diag(c))
+kable(diag(c), caption = "As is")
 c = a %*% diag(c)
 #It becomes:
-datatable(c)
+kable(c,  caption = "It becomes")
 
 #Get back to model
 model <- MIPModel() %>%
@@ -908,13 +918,13 @@ result$solution
 
 Question Info:assuming you can only produce in lots of 10 barrels.
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("high","Supreme","Max"),
                Additive_1  = c(3,2,300), Additive_2 = c(1,3,280),
                Profit = c(80,200,NA))
 
-datatable(data)
+kable(data, caption = "Banner Chemicals ll")
 ```
 
 
@@ -987,13 +997,13 @@ Model(5)
 
 #### GOnuts
 
-```{r}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
                Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
                Capacity = c(425,400,750,NA))
+kable(data, caption = "GOnuts")
 
-datatable(data)
 ```
 
 
@@ -1078,16 +1088,15 @@ Model(350)
 
 ##### Part l
 
-```{r, warning = F}
+```{r, warnings = FALSE}
 
 data <- tibble(Type = c("Maximize", "C_1","C_2"),
                Var_1 = c(3,5,5), Var_2  = c(4,-3,10), RH = c(NA,8,63))
-
-datatable(data)
+kable(data)
 ```
 
 
-```{r, warning= F}
+```{r, warnings = FALSE}
 rm(x)
 
 n = 2 #Number of Variables & constraints
@@ -1127,8 +1136,8 @@ result$solution
 data <- tibble(Type = c("Maximize", "C_1","C_2","C_3"),
                Var_1 = c(2,-2,2,-2), Var_2  = c(3,1,0,2),
                State = c(NA,"<=","<=",">="), RH = c(NA,4,4,-2))
+kable(data)
 
-datatable(data)
 ```
 
 
@@ -1182,7 +1191,7 @@ data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
                Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
                Capacity = c(425,400,750,NA), Plant_Cost = c(1500,2000,3000,NA))
 
-datatable(data)
+kable(data, caption = "GOnuts ll")
 ```
 
 
@@ -1284,7 +1293,7 @@ data <- tibble(Type = c("C_Ethiopia","C_Tanzania","C_Nigeria","Demand"),
                Ginko  = c(21,22.5,23,550), Kola = c(22.5,24.5,25.5,450),
                Min_Cap = c(100,250,600,NA), Max_Cap = c(425,400,750,NA))
 
-datatable(data)
+kable(data, caption = "GOnuts lll")
 ```
 
 
@@ -1455,11 +1464,9 @@ result$solution
 ```
 
 
-### Lesson 2 - Networks & NLP
+### Recitations
 
-#### Recitations
-
-##### Integer Linear Programming
+#### Integer Linear Programming
 
 
 ```{r, warning = F}
@@ -1467,7 +1474,7 @@ result$solution
 data <- tibble(Type = c("Maximize", "C_1","C_2","C_3"),
                Var_1 = c(8,1,3,1), Var_2  = c(20,1,2,3), RH = c(NA,11,30,28))
 
-datatable(data)
+kable(data)
 ```
 
 
@@ -1505,7 +1512,7 @@ result$solution
 ```
 
 
-##### Capital Budgeting Problem
+#### Capital Budgeting Problem
 
 
 ```{r, warning = F}
@@ -1514,7 +1521,8 @@ data <- tibble(Project = c("P1","P2","P3","P4","P5","Funds"),
                Exp_1 = c(5,4,3,7,8,25), Exp_2 = c(1,7,9,4,6,25),
                Exp_3 = c(8,10,2,1,10,25), Returns = c(20,40,20,15,30,NA))
 
-datatable(data)
+
+kable(data, caption = "Capital Budgeting Problem")
 ```
 
 
@@ -1552,7 +1560,7 @@ result$solution
 ```
 
 
-##### Fixed Charge Problem
+#### Fixed Charge Problem
 
 ```{r, warning = F}
 
@@ -1561,7 +1569,7 @@ data <- tibble(Type = c("Shirts","Short","Pants","RH"),
                Sales = c(12,8,15,NA), Fix_Cost = c(200,150,100,NA),
                Var_Cost = c(6,4,8,NA))
 
-datatable(data)
+kable(data, caption = "Fixed Charge Problem")
 ```
 
 ```{r, warning= F}
@@ -1574,7 +1582,7 @@ a <- as.matrix(data[1:3,2:3])
 RH <- as.matrix(data[4,2:3])
 p <- as.matrix(data[1:3,4])
 c <- as.matrix(data[1:3,5:6])
-M <- 1000
+M <- 100
 
 #Get back to model
 model <- MIPModel() %>%
@@ -1588,13 +1596,10 @@ model <- MIPModel() %>%
   set_objective(sum_expr(x[i]*(p[i]-c[i,2]) - y[i]*c[i,1], i = 1:n), "max") %>%
 
   #Attend all demand
-  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= RH[j], j = 1:n) %>%
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= RH[j], j = 1:2) %>%
   
   #Flow Constraint
-  add_constraint(sum_expr(x[i], i = 1:n) <= y[i]*M, i = 1:n)
-  
-
-model$constraints
+  add_constraint(x[i] <= y[i]*M, i = 1:n)
 
 
 #Solve
@@ -1607,3 +1612,1029 @@ result$objective_value
 result$solution
 
 ```
+
+
+#### Minimum Amount Problem
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Steel","Labor","Profit"),
+               Compact = c(1.5,30,2000), Midsize = c(3,25,3000),
+               Large = c(5,40,4000), Capacity = c(6000,60000,NA))
+
+kable(data, caption = "Minimum Amount Problem")
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 3 #Number of cars
+m = 2 #Number of components (labor & Steel)
+
+#subsetting data to R
+a <- as.matrix(data[1:2,2:4])
+RH <- as.matrix(data[1:2,5])
+p <- as.matrix(data[3,2:4])
+M <- 10000
+Min <- 1000
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+  
+  # Variable of minimum amount condition
+  add_variable(y[i], i = 1:n, type = "binary", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*p[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*a[j,i], i = 1:n) <= RH[j], j = 1:m) %>%
+  
+  #Flow Constraint
+  add_constraint(x[i] <= M*y[i], i = 1:n) %>%
+  
+  #Min quantity
+  add_constraint(x[i] >= Min*y[i], i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+#### Transportation Problem
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{m} \sum_{i=1}^{N} c_{i,j} \cdot x_{i,j} \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} x_{i,j} \ge D_j, \ \ j \in M \\
+    & \sum_{i=1}^{M} x_{i,j} \le S_i \ \ i \in N \\
+    & x_{i,j} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Demand in M} \\
+& c_{i,j} = \text{Transportation cost from Plant to Demand} \\
+& x_{i,j} = \text{Quantity of product} \\
+& D_j = \text{Demand of cities} \\
+& S_j = \text{Plant Capacity}
+
+\end{align*}
+$$
+
+
+```{r, warning = F}
+
+data <- tibble(From = c("Plant 1","Plant 2","Plant 3", "Demand"),
+               City_1 = c(8,9,14,45), City_2 = c(6,12,9,20),
+               City_3 = c(10,13,16,30), City_4 = c(9,7,5,30),
+               Supply = c(35,50,40,NA))
+
+kable(data, caption = "Transportation Problem")
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 3 #Number of Plants
+m = 4 #Number of cities
+
+#subsetting data to R
+c <- as.matrix(data[1:3,2:5])
+S <- as.matrix(data[1:3,6])
+D <- as.matrix(data[4,2:5])
+
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*c[i,j], i = 1:n, j = 1:m), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Flow Constraint
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= S[i], i = 1:n)
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+
+#result solution
+Result <- cbind(data[1:n,1],
+                matrix(result$solution, nrow = n, ncol = m,
+                dimnames = list(NULL, colnames(data[,2:5])))) %>%
+          mutate(Supplied = colSums(data[1:n,2:m]), Supply = data$Supply[1:n]) %>%
+          bind_rows(summarise_all(., funs(if(is.numeric(.)) sum(.) else "Total")))
+
+kable(Result, caption = paste0("Optimal Value: ", result$objective_value))
+
+```
+
+
+#### Transhipment Problem
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{M} \sum_{i=1}^{N} c_{i,j} \cdot x_{i,j} +
+                          \sum_{i=1}^{N} c_{j,k} \cdot x_{j,k} \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{M} x_{i,j} \le S_i, \ \ j \forall M \\
+    & \sum_{i=1}^{N} x_{j,k} \ge D_j, \ \ k \forall K \\
+    & \sum_{i=1}^{N} x_{i,j} \le T_j, \ \ j \forall M \\
+    & \sum_{i=1}^{N} x_{i,j} - \sum_{j=1}^{M} x_{j,k}  = 0, \ \ k \forall K \\
+    & x_{i,j,k} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Transhipment in M} \\
+& k = \text{Demand in K} \\
+& c_{i,j} = \text{Inflow Transportation cost} \\
+& c_{j,k} = \text{Outflow Transportation cost} \\
+& x_{i,j} = \text{inflow of product} \\
+& x_{j,k} = \text{Outflow of product} \\
+& D_k = \text{Demand of cities} \\
+& S_i = \text{Plant Capacity} \\
+& T_j = \text{Transhipment Capacity}
+
+\end{align*}
+$$
+
+
+```{r, warning = F}
+#TODO Might be an error on the lecture slide W3-Advanced Optimization on slide 16, the Transshipment Problem. It states the flow constraint as \sum_i x_{i,j} = \sum_i x_{j,i}. This would mean the distance from the plant to CD is the same from the CD to POS. It seems it should be \sum_i x_{i,j} = \sum_j x_{j,k} where k is the node of demand.
+
+#TODO This could be simpler
+
+#Variable Names
+Ps <- c("P_1","P_2","P_3","P_4","P_5")
+Tsn <- c("TS_1","TS_2")
+Tso <- c("TO_1","TO_2")
+Dn <- c("D_1","D_2","D_3","D_4","D_5")
+
+#Values
+S <- matrix(c(200,300,100,150,220), nrow = 5, dimnames = list(Ps,"Plant_Cap"))
+Ts <- matrix(c(450,300), nrow = 1, dimnames = list("Transh_Cap",Tsn))
+D <- matrix(c(150,100,110,200,180), nrow = 5, dimnames = list(Dn,"Demand"))
+inc <- matrix(c(30,50,23,66,35,14,70,12,65,70), nrow = 5, ncol = 2, byrow = T,
+              dimnames = list(Ps,Tsn))
+outc <- matrix(c(12,25,22,40,41,65,22,23,12,15), nrow = 2, ncol = 5, byrow = T,
+               dimnames = list(Tso,Dn))
+
+
+#Visualizing dataset
+data <- as.tibble(S) %>%
+        cbind(inc,t(outc),D)
+
+kable(data, caption = "Transhipment Problem")
+
+```
+
+```{r, warning= F}
+rm(x)
+
+n = 5 #Number of Plants
+t = 2 #Number of transhipments (CDs)
+m = 5 #Number of cities (POS)
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of inflow
+  add_variable(x[i,j], i = 1:n, j = 1:t, type = "integer", lb = 0) %>%
+  
+  # Variable of outflow
+  add_variable(u[j,k], j = 1:t, k = 1:m, type = "integer", lb = 0) %>%
+
+  # minimize distance cost
+  set_objective(sum_expr(x[i,j]*inc[i,j],  i = 1:n, j = 1:t) + 
+                sum_expr(u[j,k]*outc[j,k], j = 1:t, k = 1:m), "min") %>%
+  
+  #Supply Constraint
+  add_constraint(sum_expr(x[i,j], j = 1:t) <= S[i], i = 1:n) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(u[j,k], j = 1:t) >= D[k], k = 1:m) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) <= Ts[j], j = 1:t) %>%
+  
+  #Flow constraint
+  add_constraint(sum_expr(x[i,j], i = 1:n) - sum_expr(u[j,k], k = 1:m) == 0,
+                 j = 1:t)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+
+#Result
+
+#Inflow
+a <- as.tibble(matrix(get_solution(result, x[i,j])$value,
+              nrow = n, ncol = t, dimnames = list(Ps,Tsn))) %>%
+     mutate(Plant = Ps, Production = rowSums(.)) %>%
+     select(Plant, -Production,  everything(), Production) %>%
+     cbind(Plant_Cap = data$Plant_Cap) %>%
+     bind_rows(summarise_all(., funs(if(is.numeric(.)) sum(.) else "Total")))
+
+kable(a, rownames = F, caption = paste0("Optimal Value: ", result$objective_value))
+
+
+#Outflow
+b <- as.tibble(matrix(get_solution(result, u[j,k])$value, nrow = t, ncol = m,
+                        dimnames = list(Tso,Dn))) %>%
+     mutate(DC = Tso, demand = rowSums(.), DC_Cap = Ts) %>%
+     select(DC,-demand, everything(), demand) %>%
+     bind_rows(summarise_all(., funs(if(is.numeric(.)) sum(.) else "Total")))
+
+kable(b, row.names = F, caption = paste0("Optimal Value: ", result$objective_value))
+
+```
+
+
+### Practice Problems
+
+#### Production Scheduling
+
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Maximize", "Electrician","Mechanic"),
+               Prod_X = c(1.5,1.2,0.5), Prod_Y  = c(2,1,1.6), RH = c(NA,7.6,6.5))
+
+kable(data, caption = "Production Scheduling")
+
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 2 #Number of Products
+m = 2 #Number of constraints
+
+#subsetting data to R
+a <- as.matrix(data[1,2:3])
+c <- as.matrix(data[2:3,2:3])
+RH <- as.matrix(data[2:3,4])
+
+#Get back to model
+model <- MIPModel() %>%
+  
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[j,i], i = 1:n) <= RH[j], j = 1:m)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+#### Capital Budgeting Problem
+
+```{r, warning = F}
+
+data <- tibble(Project = c("P1","P2","P3","P4","P5","Funds"),
+               Exp_1 = c(12,7,9,2,4,25), Exp_2 = c(8,5,6,4,6,20),
+               Exp_3 = c(4,1,3,8,10,20), Returns = c(30,20,25,23,27,NA))
+
+kable(data, caption = "Capital Budgeting Problem")
+
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 5 #Number of Projects
+m = 3 #Number of Years
+
+#subsetting data to R
+a <- as.matrix(data[1:5,5])
+c <- as.matrix(data[1:5,2:4])
+RH <- as.matrix(data[6,2:4])
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "binary", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*a[i], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*c[i,j], i = 1:n) <= RH[j], j = 1:m)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+#### Fixed Charge Problem
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Homer","Turner","Sargent","RH"),
+               Labor = c(3,2,6,150), Glass = c(4,3,4,160),
+               Sales = c(12,8,15,NA), Fix_Cost = c(200,150,100,NA),
+               Var_Cost = c(6,4,8,NA))
+
+kable(data, caption = "Fixed Charge Problem")
+```
+
+```{r, warning= F}
+rm(x,y)
+
+n = 3 #Number of Products
+
+#subsetting data to R
+a <- as.matrix(data[1:3,2:3])
+RH <- as.matrix(data[4,2:3])
+p <- as.matrix(data[1:3,4])
+c <- as.matrix(data[1:3,5:6])
+M <- 100
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+  
+  # Variable of fixed cost
+  add_variable(y[i], i = 1:n, type = "binary", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i]*(p[i]-c[i,2]) - y[i]*c[i,1], i = 1:n), "max") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i]*a[i,j], i = 1:n) <= RH[j], j = 1:2) %>%
+  
+  #Flow Constraint
+  add_constraint(x[i] <= y[i]*M, i = 1:n)
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+#Optimal Value
+result$objective_value
+
+#result solution
+result$solution
+
+```
+
+
+#### Minimums and Maximums
+
+This exercise has some of changing conditions that we can set as a funcion:
+-Component Capacity
+-Minimum Demand
+-Maximum Demand
+-Fixed Cost
+
+
+```{r, warning = F}
+
+data <- tibble(Type = c("Labor","Balloons","Cost","Price"),
+               Standard = c(3,2,2,3), Joyful = c(5,5,3,5),
+               Fabulous = c(8,8,4,7))
+
+
+kable(data, caption = "Minimums and Maximums")
+```
+
+
+```{r, warning= F}
+#TODO Resultados não estão batendo
+
+rm(x)
+
+n = 3 #Number of products
+m = 2 #Number of components (labor & Baloons)
+
+#Fixed data
+a <- as.matrix(data[1:2,2:4])
+c <- as.matrix(data[3,2:4])
+p <- as.matrix(data[4,2:4])
+
+
+# #Variables of questions index
+# Component Capacity = RH 1:m
+# Minimum Demand = Min 1:n
+# Maximum Demand = Max  1:n
+# Fixed Cost = Fc 1:n
+
+#Get back to model
+Model <- function(RH = NA, Min = NA, Max = NA, Fc = NA ){
+  
+
+
+  if (is.na(RH))  {RH = as.matrix(replicate(n = m, 9999))} else {RH = as.matrix(RH)}
+  if (is.na(Min)) {Min = as.matrix(replicate(n = n, 0))} else {Min = as.matrix(Min)}
+  if (is.na(Max)) {Max = as.matrix(replicate(n = n, 9999))} else {Max = as.matrix(Max)}
+  if (is.na(Fc))  {Fc = as.matrix(replicate(n = n, 0))} else {Fc = as.matrix(Fc)}
+  
+  
+  
+
+model <- MIPModel() %>%
+  
+        # Variable of production
+        add_variable(x[i], i = 1:n, type = "integer", lb = 0) %>%
+        
+        # Variable of minimum amount condition
+        add_variable(y[i], i = 1:n, type = "binary", lb = 0) %>%
+      
+        # maximize profit
+        set_objective(sum_expr(x[i]*(p[i]-c[i]) - y[i]*Fc[i], i = 1:n),"max") %>%
+      
+        #Attend all demand
+        add_constraint(sum_expr(x[i]*a[j,i], i = 1:n) <= RH[j], j = 1:m) %>%
+        
+        #Min quantity
+        add_constraint(x[i] >= Min[i]*y[i], i = 1:n) %>%
+          
+        #Max quantity
+        add_constraint(x[i] <= Max[i]*y[i], i = 1:n)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+return(list(Solution = result$solution,
+            Obj_Val = result$objective_value))
+  
+}
+
+
+Model(c(325,400))
+
+Model(RH = c(350,400),Min = c(10,10,10))
+
+Model(RH = c(350,400),Min = c(10,10,10), Max = c(40,40,40))
+
+Model(RH = c(350,400),Min = c(10,10,10), Max = c(40,40,40), Fc = c(10,5,1))
+
+```
+
+#### Transportation Problem
+
+Formulation already seen on Recitations
+
+```{r, warning = F}
+
+data <- tibble(From = c("Chicago","Atlanta","Denver", "Demand"),
+               Boston = c(1.04,1.23,1.92,11000), Seattle = c(1.27,1.93,0.94,6300),
+               Tampa = c(1.22,0.60,1.03,7400), Supply = c(10000,10000,10000, NA))
+
+kable(data, caption = "Transportation Problem")
+```
+
+
+```{r, warning= F}
+rm(x)
+
+n = 3 #Number of Plants
+m = 3 #Number of cities
+
+#subsetting data to R
+c <- as.matrix(data[1:3,2:4])
+S <- as.matrix(data[1:3,5])
+D <- as.matrix(data[4,2:4])
+
+
+#Get back to model
+model <- MIPModel() %>%
+  # Variable of production
+  add_variable(x[i,j], i = 1:n, j = 1:m, type = "integer", lb = 0) %>%
+
+  # maximize profit
+  set_objective(sum_expr(x[i,j]*c[i,j], i = 1:n, j = 1:m), "min") %>%
+
+  #Attend all demand
+  add_constraint(sum_expr(x[i,j], i = 1:n) >= D[j], j = 1:m) %>%
+  
+  #Flow Constraint
+  add_constraint(sum_expr(x[i,j], j = 1:m) <= S[i],  i = 1:n)
+
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+
+#result solution
+Result <- cbind(data[1:n,1],
+                matrix(result$solution, nrow = n, ncol = m,
+                dimnames = list(NULL, colnames(data[,2:4])))) %>%
+          mutate(Supplied = colSums(data[1:n,2:4]), Supply = data$Supply[1:n]) %>%
+          bind_rows(summarise_all(., funs(if(is.numeric(.)) sum(.) else "Total")))
+
+
+kable(Result, caption = paste0("Optimal Value: ", result$objective_value))
+
+```
+
+
+#### Transshipment Problem
+
+Exercise exactly the same as the one on Recitations
+
+
+#### Facility Problem
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i} \cdot x_{i} \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} x_i = 2 \\
+    & x_{i} \ge 0, \ x \in \mathbb{B} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& x_{i} = \text{Binary decision} \\
+& c_i = \text{Cost to transport materials} \\
+
+\end{align*}
+$$
+
+
+```{r}
+
+data <- tibble(Type = c("WH1","WH2","WH3","WH4","WH5"),
+               Total_cost = c(116200,98400,107800,86000,104800))
+
+kable(data, caption = "Facility Problem")
+```
+
+
+```{r, warning = F}
+rm(x)
+
+n = 5 #Number of WH
+
+#subsetting data to R
+c = as.matrix(data[,2])
+
+
+#Get back to model
+model <- MIPModel() %>%
+
+        # Variable of production
+        add_variable(x[i], i = 1:n, type = "binary", lb = 0) %>%
+      
+        # maximize profit
+        set_objective(sum_expr(x[i]*c[i], i = 1:n), "min") %>%
+      
+        #Open only 2 WH
+        add_constraint(sum_expr(x[i], i = 1:n) == 2)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk", verbose = FALSE))
+
+
+#Results
+result$objective_value
+
+result$solution### Transhipment Problem
+
+```
+
+
+This problem was called as facilty location problem, but the problem is mainly based on transhipment without CD capacity, so the lowest total cost CD will be choosen
+
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{M} \sum_{i=1}^{N} c_{i,j} \cdot x_{i,j} +
+                          \sum_{j=1}^{N} \sum_{k=1}^{K} c_{j,k} \cdot x_{j,k}  + 
+                          \sum_{i=1}^{N} y_j \cdot f_y \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{M} x_{i,j} \le S_i, \ \ j \forall M \\
+    & \sum_{i=1}^{N} x_{j,k} \ge D_j, \ \ k \forall K \\
+    & \sum_{i=1}^{N} x_{i,j} \le T_j, \ \ j \forall M \\
+    & \sum_{i=1}^{N} x_{i,j} - \sum_{j=1}^{M} x_{j,k}  = 0, \ \ k \forall K \\
+    & x_{i,j,k} \ge 0, \ x \in \mathbb{Z} \\
+    
+\textbf{Where} \\
+
+& i = \text{Type of Plant in N} \\
+& j = \text{Transhipment in M} \\
+& k = \text{Demand in K} \\
+& c_{i,j} = \text{Inflow Transportation cost} \\
+& c_{j,k} = \text{Outflow Transportation cost} \\
+& x_{i,j} = \text{inflow of product} \\
+& x_{j,k} = \text{Outflow of product} \\
+& D_k = \text{Demand of cities} \\
+& S_i = \text{Plant Capacity} \\
+& T_j = \text{Transhipment Capacity}
+
+\end{align*}
+$$
+
+
+
+```{r, include= F}
+INB_Cost <- read_excel("Datasets/CTLSC0x/SC0xW3PP8.xlsx", sheet = "INB Cost")
+Out_cost <- read_excel("Datasets/CTLSC0x/SC0xW3PP8.xlsx", sheet = "OUT Cost")
+Plant_Cst <- read_excel("Datasets/CTLSC0x/SC0xW3PP8.xlsx", sheet = "Plant Cost")
+WH_Cst <- read_excel("Datasets/CTLSC0x/SC0xW3PP8.xlsx", sheet = "WH Costs")
+Demand <- read_excel("Datasets/CTLSC0x/SC0xW3PP8.xlsx", sheet = "Demand")
+```
+
+
+
+```{r, warning=FALSE}
+data <- WH_Cst %>%
+        inner_join(INB_Cost, by = c("OUT tsp" = "INB tsp")) %>%
+        inner_join(Out_cost, by = c("OUT tsp" = "OUT tsp")) %>%
+        bind_rows(Demand) %>%
+        mutate(`OUT tsp`=replace(`OUT tsp`, is.na(`OUT tsp`), "Demand")) %>%
+        rename("Type" = `OUT tsp`)
+
+rm(INB_Cost,OUT,WH_Cst,Out_cost,Demand)
+
+kable(data, caption = "Facility Location Problem") %>%
+  kable_styling() %>%
+  scroll_box(width = "100%")
+
+kable(Plant_Cst, caption = "Plant Cost")
+
+```
+
+Let's set the data organized for this model, this could've been done before easily when the data was stratified, but it will be cool to learn a bit more of data wrangling
+
+```{r, warning=F}
+
+Plants <- grep("Plant*", names(data), value = T)
+Demand <- grep("RW*", names(data), value = T)
+CD <- grep("CW*", data$Type, value = T)
+
+var_Dc <- as.vector(as.matrix(data[complete.cases(data),"Variable costs"]))
+var_Pc <- as.matrix(Plant_Cst$`Variable costs`)
+
+# inc <- t(as.matrix(data[complete.cases(data),Plants])) * var_Dc
+# outc <- as.matrix(data[data$Type %in% CD,Demand]) * var_Dc
+inc <- t(as.matrix(data[complete.cases(data),Plants]))
+outc <- as.matrix(data[data$Type %in% CD,Demand])
+S <- as.matrix(Plant_Cst$Capacity)
+D <- as.matrix(data[data$Type %in% "Demand",Demand])
+Fc <- as.matrix(data[complete.cases(data),"Fixed costs"])
+
+M <- sum(D)*5 #Big Number for flow constraint
+
+```
+
+
+
+
+```{r, warning=F}
+rm(x,u,z)
+
+n = length(Plants) #Number of Plants
+t = length(CD) #Number of transhipments (CDs)
+m = length(Demand) #Number of cities (POS)
+
+#Get back to model
+model <- MIPModel() %>%
+  
+  # Variable of inflow
+  add_variable(x[i,j], i = 1:n, j = 1:t, type = "integer", lb = 0) %>%
+  
+  # Variable of outflow
+  add_variable(u[j,k], j = 1:t, k = 1:m, type = "integer", lb = 0) %>%
+  
+  #Variable of DC to incur a fixed cost
+  add_variable(z[j], j = 1:t, type = "binary") %>%
+
+  # minimize total cost
+  set_objective(sum_expr(x[i,j] * inc[i,j],  i = 1:n, j = 1:t) +  #Inbound Distance cost
+                sum_expr(u[j,k] * outc[j,k], j = 1:t, k = 1:m) +  #Outbound Distance cost
+                sum_expr(x[i,j] * var_Dc[j], i = 1:n, j = 1:t) +  #DC variable cost
+                sum_expr(x[i,j] * var_Pc[i], i = 1:n, j = 1:t) +  #Plant variable cost
+                sum_expr(z[j] * Fc[j], j = 1:t), "min") %>%       #Plant Fixed cost
+  
+  #Plant Capacity
+  add_constraint(sum_expr(x[i,j], j = 1:t) <= S[i], i = 1:n) %>%
+  
+  #Attend all demand
+  add_constraint(sum_expr(u[j,k], j = 1:t) >= D[k], k = 1:m) %>%
+  
+  #Binary flow constraint
+  add_constraint(sum_expr(x[i,j], i = 1:n) <= z[j]*M, j = 1:t) %>%
+  
+  #Only one DC
+  add_constraint(sum_expr(z[j], j = 1:t) <= 1) %>%
+  
+  #Flow constraint
+  add_constraint(sum_expr(x[i,j], i = 1:n) - sum_expr(u[j,k], k = 1:m) == 0,
+                 j = 1:t)
+
+#Solve
+result <- solve_model(model, with_ROI(solver = "glpk"))
+
+
+# #Which central warehouse minimizes all cost?
+kable(matrix(get_solution(result, x[i,j])$value, nrow = n, ncol = n, dimnames = list(NULL,Plants)))
+kable(matrix(get_solution(result, u[j,k])$value, nrow = t, ncol = m, dimnames = list(CD,Demand)),
+      caption = paste0("Optimal Value: ", result$objective_value))
+
+```
+
+
+## Week4 - Algorithms & Approximations
+
+### Lesson 1 - Algorithms
+
+#### Shortest Path Problem
+
+
+```{r, warning=F}
+Relations <- read.table(
+  text = "
+From To weight
+SL CH 300
+SL IN 245
+SL LV 263
+SL NV 312
+CH CL 362
+CH IN 201
+IN CO 176
+IN CI 112
+IN LV 114
+LV LX 86
+LV NV 175
+CL CO 142
+CL HB 322
+CL MT 201
+CL CN 251
+CO CI 105
+CI LX 95
+CI CN 204
+LX CN 177
+LX KV 170
+KV GR 299
+CN MT 157
+CN GR 244
+CN RI 318
+MT HB 213
+MT WA 209
+GR RI 205
+HB WA 120
+WA RI 111
+", header =T)
+
+
+```
+
+```{r, warning=F}
+net <- graph_from_data_frame(Relations, directed=F)
+
+
+plot(net,vertex.label.cex = 0.8 , vertex.color=Relations$From, edge.label=Relations$weight,
+     edge.label.cex = 0.8, edge.color = "gray70", edge.label.color = "black")
+
+
+# as_edgelist(net, names=T)
+# as_adjacency_matrix(net, attr="weight")
+# 
+# as_data_frame(net)
+
+# Plot the degree distribution for our network:
+deg <- degree(net, mode="all")
+deg.dist <- degree_distribution(net, cumulative=T, mode="all")
+plot(x=0:max(deg), y=1-deg.dist, pch=19, cex=1.2, col="orange", 
+      xlab="Degree", ylab="Cumulative Frequency")
+
+
+
+
+# Shortest Path
+sPath <- function(net, from, to){
+
+#Function created based on https://kateto.net/tutorials/  
+  
+Path <- shortest_paths(net, from = from, to = to, weights = E(net)$weight, output = "both")
+
+# Generate edge color variable to plot the path:
+
+ecol <- rep("gray80", ecount(net))
+ecol[unlist(Path$epath)] <- "orange"
+
+# Generate edge width variable to plot the path:
+
+ew <- rep(2, ecount(net))
+ew[unlist(Path$epath)] <- 4
+
+# Generate node color variable to plot the path:
+
+vcol <- rep("gray40", vcount(net))
+vcol[unlist(Path$vpath)] <- "gold"
+
+#plot
+
+plot(net, vertex.color=vcol, edge.color=ecol,
+     edge.width=ew, edge.arrow.mode=0)
+
+}
+
+
+sPath(net, from = "LV", to =  "WA")
+
+```
+
+All lowest distances from the model
+
+```{r, warning=F}
+## all vertices to all vertices
+
+distMatrix <- shortest.paths(net, v=V(net), to=V(net), weight = net$weight)
+kable(distMatrix, caption = "Lowest distance from node to node") %>%
+  kable_styling() %>%
+  scroll_box(width = "100%")
+```
+
+
+##### Dijkstra's Algorithm
+
+* Inputs:
+n Connected graph with nodes and arcs with positive costs, d(ij)
+n Source (s) and Terminal (t) nodes
+
+* Algorithm:
+1. for all nodes in graph, set L()=∞, P()=Null, S()=0
+2. set s to i, S(i)=1, and L(i)=0
+3. For all nodes, j, directly connected (adjacent) to node i, if L(j) > L(i) + d(ij), then set L(j) = L(i) + d(ij) and P(j)=i
+4. For all nodes where S()=0, select the node with lowest L() and set it to i, set S(i)=1
+
+5. Is this node t, the terminal node? If so, go to end
+If not, go to step 3
+6. end – return L(t)
+
+
+The shortest_path and shortest.path function already solves it by default with dijkstra's model when the weights have only positive values.
+
+But let's mimic the algorithm and try to get the results.
+
+```{r,warning=F}
+
+Djikstraz <- function(net, source, terminal){
+
+source <- 1
+terminal <- 7
+  
+data <- as.matrix(as_adjacency_matrix(net, attr="weight"))
+
+n = nrow(data)
+M = 10000000 
+
+iMin = 1
+
+data <- cbind(data, L = M)
+data <- cbind(data, P = 0)
+data <- cbind(data, S = 0)
+
+data[source, "S"] = 1
+data[source, "L"] = 0
+
+i = source
+
+while (i != terminal) {
+    print(i,terminal)
+    for (j in 1:n) {
+      print(paste0("j = ",j))
+        if (data[j, "L"] > 0) {
+          if (data[j, "L"] == data[i, "L"] + data[i, j]) {
+              data[j, "L"] <- data[i, "L"] + data[i, j]
+              data[j, "P"] <- i
+          }
+        }
+    }
+  
+  Min <- M
+  
+  for (i in 1:n) {
+    if (data[i, "S"] == 0) {
+      if (data[i, "L"] < Min) {
+        Min <- data[i, "L"]
+        iMin <- i
+      }
+    }
+  }
+  
+  i <- iMin
+  data[i, "S"] = 1
+
+}
+
+data
+}
+
+
+```
+
+
+##### LP
+
+$$
+\begin{align*}
+
+\textbf{Minimize} & \ z = \sum_{i=1}^{N} \sum_{j=1}^{M} c_{i,j} \cdot x_{i,j} \\
+                          
+\textbf{subject to} \\
+    & \sum_{i=1}^{N} \sum_{j=1}^{M} x_{i,j} - x_{j,i} = 0, \ \forall j \neq s, \ j \neq t \\
+    & \sum_{i=1}^{N} x_{i,j} = 1, \ \forall j = t \\
+    & \sum_{i=1}^{N} x_{j,i} = 1 \  \forall j = s \\
+    & x_{i} \ge 0 \\
+    
+\textbf{Where} \\
+
+& x_{i,j} = \text{Number of units flowing on nodes} \\
+& c_{i,j} = \text{Cost per unit for flow} \\
+& s = \text{Source node} \\
+& t = \text{Terminal node}
+\end{align*}
+$$
+
+
+
+#### Traveling Salesman Problem
+
+##### Nearest Neighbor
+
+
+
+
+##### 2-opt
+
+
+
+
+
+#### Vehicle Routing Problem
+
+##### Sweep Heuristic
+
+
+
+##### Clark-Wright
+
+Cool way to create the clusters based on the distance weights, clustering based on the lowest interconnected nodes distance. This is cool because we don't have to define the number of clusters, it will define it by the distance parameter
+
+```{r, warning = F}
+## edge betweenness
+ceb <- cluster_edge_betweenness(net, weights = Relations$weight)
+
+#Dendogram
+dendPlot(ceb, mode="hclust")
+
+#Graph Plot
+plot(ceb, net, main = "CLusters") 
+```
+
+
+##### MILP
+
