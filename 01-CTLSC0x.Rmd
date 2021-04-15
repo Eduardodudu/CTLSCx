@@ -188,15 +188,15 @@ plot_ly(data, x = ~x, y = ~y, type = 'scatter', mode = 'lines') %>%
 P(5)
 
 #Question2: What is the first derivative of the price function?
-library(Ryacas)
-x <- Sym("x")
-s <- expression((x/73)^2-(x/95)+0.92)
-deriv(s,x) #Didn't work TO DO
-
-#Question3: Second Derivative
-x <- Sym("x")
-s <- expression(-1/95 + (2*x)/5329)
-deriv(s,x) #worked
+# library(Ryacas)
+# x <- Sym("x")
+# s <- expression((x/73)^2-(x/95)+0.92)
+# deriv(s,x) #Didn't work TO DO
+# 
+# #Question3: Second Derivative
+# x <- Sym("x")
+# s <- expression(-1/95 + (2*x)/5329)
+# deriv(s,x) #worked
 
 #Question4: Lowest Unit Price
 result <- optimize(P,interval = c(-100,100), maximum = F)
@@ -259,9 +259,9 @@ $$
 f <- function(x){1700*(x/90-(x/90)^2)}
 
 #Question1: First derivative
-x <- Sym("x")
-s <- expression(1700*(x/90-(x/90)^2))
-deriv(s,x) #Didn't work TO DO
+# x <- Sym("x")
+# s <- expression(1700*(x/90-(x/90)^2))
+# deriv(s,x) #Didn't work TO DO
 
 
 #Question2: How many units should be given away in the campaign in order to maximize its positive impact?
@@ -2434,8 +2434,9 @@ WA RI 111
 net <- graph_from_data_frame(Relations, directed=F)
 
 
-plot(net,vertex.label.cex = 0.8 , vertex.color=Relations$From, edge.label=Relations$weight,
-     edge.label.cex = 0.8, edge.color = "gray70", edge.label.color = "black")
+#TODO Erro no pacote
+# plot(net,vertex.label.cex = 0.8 , vertex.color=Relations$From, edge.label=Relations$weight,
+#      edge.label.cex = 0.8, edge.color = "gray70", edge.label.color = "black")
 
 
 # as_edgelist(net, names=T)
